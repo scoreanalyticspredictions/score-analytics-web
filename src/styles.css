@@ -339,6 +339,16 @@ table.pm tr:last-child td { border-bottom: none; }
 }
 .about-support p { color: var(--muted); font-size: 15px; margin-bottom: 16px; }
 
+/* ---------- About: Contact ---------- */
+.about-contact { text-align: center; margin: 36px 0 8px; }
+.about-contact h2 { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
+.about-contact p { color: var(--muted); font-size: 15px; margin-bottom: 8px; }
+.about-contact a {
+  color: var(--text); text-decoration: none; font-weight: 600; font-size: 16px;
+  transition: color .12s;
+}
+.about-contact a:hover { color: var(--accent); }
+
 /* ---------- Ko-fi button ---------- */
 .kofi-btn, .kofi-fab {
   display: inline-flex; align-items: center; gap: 9px; font-family: inherit;

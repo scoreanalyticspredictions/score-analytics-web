@@ -189,6 +189,12 @@ export default function AboutPage() {
         </p>
         <KofiButton />
       </div>
+
+      <section className="about-contact">
+        <h2>Contact</h2>
+        <p>Have questions about the model or the platform?</p>
+        <a href="mailto:contact@scoreanalyticspredictions.com">contact@scoreanalyticspredictions.com</a>
+      </section>
     </div>
   )
 }
