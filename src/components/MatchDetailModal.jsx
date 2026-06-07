@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { teamCode } from '../teamCodes.js'
+import { useTeamName } from '../teamNames.js'
 import { teamIdByName } from '../teamLookup.js'
 import { TierBadge, localeOf } from './MatchCard.jsx'
 import WeatherIcon from './WeatherIcon.jsx'
@@ -31,14 +32,15 @@ function ProbRow({ label, value, type, onLabelClick }) {
 
 function TeamBlock({ name, flag, xg, onClick }) {
   const { t } = useTranslation()
+  const tn = useTeamName()
   return (
     <div
       className="team team-link" role="button" tabIndex={0}
       onClick={onClick} onKeyDown={(e) => { if (e.key === 'Enter') onClick() }}
-      title={t('modal.viewTeam', { name })}
+      title={t('modal.viewTeam', { name: tn(name) })}
     >
       {flag && <img src={flag} alt={name} />}
-      <div className="name">{name}</div>
+      <div className="name">{tn(name)}</div>
       <div className="xg">{t('match.xg')} <b>{xg == null ? '—' : Number(xg).toFixed(2)}</b></div>
     </div>
   )

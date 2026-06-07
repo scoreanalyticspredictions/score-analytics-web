@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { getTeam } from '../api.js'
 import MatchCard from '../components/MatchCard.jsx'
 import PostMortemTable from '../components/PostMortemTable.jsx'
+import { useTeamName } from '../teamNames.js'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
 
@@ -35,6 +36,7 @@ function HBar({ label, value, accent }) {
 
 export default function TeamPage() {
   const { t } = useTranslation()
+  const tn = useTeamName()
   const { id } = useParams()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -61,7 +63,7 @@ export default function TeamPage() {
       <div className="team-hero">
         {data.team_flag && <img src={data.team_flag} alt={data.team_name} className="hero-flag" />}
         <div>
-          <h1>{data.team_name}</h1>
+          <h1>{tn(data.team_name)}</h1>
           {data.group_name && <span className="badge-wc">{t('teamPage.groupBadge', { name: data.group_name })}</span>}
         </div>
       </div>

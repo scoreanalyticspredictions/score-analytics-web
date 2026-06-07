@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useTeamName } from '../teamNames.js'
 
 const COLS = [
   { key: 'prob_round_of_32', label: 'r32' },
@@ -22,6 +23,7 @@ function fmt(v) { return v == null ? '—' : `${(v * 100).toFixed(1)}%` }
 
 export default function TournamentOddsTable({ teams }) {
   const { t } = useTranslation()
+  const tn = useTeamName()
   const [sort, setSort] = useState({ key: 'prob_champion', dir: 'desc' })
   const navigate = useNavigate()
 
@@ -66,16 +68,16 @@ export default function TournamentOddsTable({ teams }) {
           </tr>
         </thead>
         <tbody>
-          {sorted.map((t) => (
-            <tr key={t.team_id} className="odds-row" onClick={() => navigate(`/team/${t.team_id}`)}>
+          {sorted.map((team) => (
+            <tr key={team.team_id} className="odds-row" onClick={() => navigate(`/team/${team.team_id}`)}>
               <td className="team-cell">
-                {t.team_flag && <img src={t.team_flag} alt="" />}
-                <span>{t.team_name}</span>
+                {team.team_flag && <img src={team.team_flag} alt="" />}
+                <span>{tn(team.team_name)}</span>
               </td>
-              <td className="num">{t.group_name || '—'}</td>
+              <td className="num">{team.group_name || '—'}</td>
               {COLS.map((c) => (
-                <td key={c.key} className="num" style={cellStyle(t[c.key], maxByCol[c.key])}>
-                  {fmt(t[c.key])}
+                <td key={c.key} className="num" style={cellStyle(team[c.key], maxByCol[c.key])}>
+                  {fmt(team[c.key])}
                 </td>
               ))}
             </tr>

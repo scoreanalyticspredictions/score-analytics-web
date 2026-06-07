@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getGroups } from '../api.js'
+import { useTeamName } from '../teamNames.js'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
 
@@ -23,6 +24,7 @@ function PositionBar({ t }) {
 
 function GroupCard({ group }) {
   const { t } = useTranslation()
+  const tn = useTeamName()
   const navigate = useNavigate()
   return (
     <div className="group-card">
@@ -32,7 +34,7 @@ function GroupCard({ group }) {
           <div key={team.team_id} className="group-team" onClick={() => navigate(`/team/${team.team_id}`)}>
             <div className="gt-top">
               {team.team_flag && <img src={team.team_flag} alt="" />}
-              <span className="gt-name">{team.team_name}</span>
+              <span className="gt-name">{tn(team.team_name)}</span>
               <span className="gt-win">{pct(team.prob_1st)}%</span>
             </div>
             <PositionBar t={team} />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import MatchDetailModal from './MatchDetailModal.jsx'
 import { teamCode } from '../teamCodes.js'
+import { useTeamName } from '../teamNames.js'
 import WeatherIcon from './WeatherIcon.jsx'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
@@ -30,10 +31,11 @@ function ProbRow({ label, value, type }) {
 
 function Team({ name, flag, xg }) {
   const { t } = useTranslation()
+  const tn = useTeamName()
   return (
     <div className="team">
       {flag ? <img src={flag} alt={name} loading="lazy" /> : <div style={{ width: 38, height: 26 }} />}
-      <div className="name">{name}</div>
+      <div className="name">{tn(name)}</div>
       <div className="xg">{t('match.xg')} <b>{xg == null ? '—' : Number(xg).toFixed(2)}</b></div>
     </div>
   )

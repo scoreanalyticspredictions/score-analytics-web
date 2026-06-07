@@ -3,9 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Logo from './Logo.jsx'
 import { getTeams } from '../api.js'
+import { useTeamName } from '../teamNames.js'
 
 function TeamSearch() {
   const { t } = useTranslation()
+  const tn = useTeamName()
   const [teams, setTeams] = useState([])
   const [q, setQ] = useState('')
   const [open, setOpen] = useState(false)
@@ -19,8 +21,13 @@ function TeamSearch() {
     return () => document.removeEventListener('mousedown', onDoc)
   }, [])
 
-  const matches = q.trim()
-    ? teams.filter((t) => (t.team_name || '').toLowerCase().includes(q.trim().toLowerCase())).slice(0, 8)
+  const query = q.trim().toLowerCase()
+  const matches = query
+    ? teams.filter((team) => {
+        const en = (team.team_name || '').toLowerCase()
+        const loc = tn(team.team_name).toLowerCase()
+        return en.includes(query) || loc.includes(query)
+      }).slice(0, 8)
     : []
 
   const go = (team) => { setQ(''); setOpen(false); navigate(`/team/${team.team_id}`) }
@@ -38,7 +45,7 @@ function TeamSearch() {
           {matches.map((team) => (
             <li key={team.team_id} onClick={() => go(team)}>
               {team.team_flag && <img src={team.team_flag} alt="" />}
-              <span>{team.team_name}</span>
+              <span>{tn(team.team_name)}</span>
               {team.group_name && (
                 <span className="sr-group">{t('header.groupShort', { group: team.group_name })}</span>
               )}

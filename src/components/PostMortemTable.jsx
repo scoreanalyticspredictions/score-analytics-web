@@ -1,13 +1,15 @@
 import { useTranslation } from 'react-i18next'
+import { useTeamName } from '../teamNames.js'
 
 export default function PostMortemTable({ rows }) {
   const { t } = useTranslation()
+  const tn = useTeamName()
   if (!rows || rows.length === 0) return null
 
   const resultLabel = (m) => {
     if (m.actual_home_score == null || m.actual_away_score == null) return t('postmortem.na')
-    if (m.actual_home_score > m.actual_away_score) return t('postmortem.win', { team: m.home_team })
-    if (m.actual_home_score < m.actual_away_score) return t('postmortem.win', { team: m.away_team })
+    if (m.actual_home_score > m.actual_away_score) return t('postmortem.win', { team: tn(m.home_team) })
+    if (m.actual_home_score < m.actual_away_score) return t('postmortem.win', { team: tn(m.away_team) })
     return t('postmortem.draw')
   }
 
@@ -28,7 +30,7 @@ export default function PostMortemTable({ rows }) {
           <tbody>
             {rows.map((m) => (
               <tr key={m.fixture_id}>
-                <td>{m.home_team} vs {m.away_team}</td>
+                <td>{tn(m.home_team)} vs {tn(m.away_team)}</td>
                 <td>{m.predicted_home_score} — {m.predicted_away_score}</td>
                 <td>{m.actual_home_score} — {m.actual_away_score}</td>
                 <td>{resultLabel(m)}</td>
