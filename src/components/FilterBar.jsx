@@ -3,8 +3,12 @@ const STAGES = [
   'Quarter-finals', 'Semi-finals', 'Final',
 ]
 const GROUPS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
+const TIER_DESC = {
+  A: 'Strong favorite', B: 'Clear favorite', C: 'Draw-leaning',
+  D: 'Slight edge', E: 'Toss-up',
+}
 
-export default function FilterBar({ filters, onChange }) {
+export default function FilterBar({ filters, onChange, tiers = ['A', 'B', 'C', 'D', 'E'] }) {
   const set = (patch) => onChange({ ...filters, ...patch })
 
   return (
@@ -22,6 +26,16 @@ export default function FilterBar({ filters, onChange }) {
         <select id="f-group" value={filters.group} onChange={(e) => set({ group: e.target.value })}>
           <option value="">All groups</option>
           {GROUPS.map((g) => <option key={g} value={g}>Group {g}</option>)}
+        </select>
+      </div>
+
+      <div className="filter-group">
+        <label htmlFor="f-tier">Tier</label>
+        <select id="f-tier" value={filters.tier} onChange={(e) => set({ tier: e.target.value })}>
+          <option value="">All tiers</option>
+          {tiers.map((t) => (
+            <option key={t} value={t}>Tier {t} — {TIER_DESC[t] || ''}</option>
+          ))}
         </select>
       </div>
 
