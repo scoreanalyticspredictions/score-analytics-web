@@ -231,10 +231,26 @@ function mockTeamDetail(id) {
   }
 }
 
-async function http(path) {
-  const res = await fetch(`${API_URL}${path}`)
-  if (!res.ok) throw new Error(`API error ${res.status}`)
-  return res.json()
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
+// Reintenta ante errores de red (incluye el "Failed to fetch" del cold start de
+// Render free) y respuestas 5xx (servidor despertando). Cubre ~70s de arranque en
+// frío: el usuario ve "Loading…" y se recupera solo en vez de un error seco.
+async function http(path, { retries = 8 } = {}) {
+  let lastErr
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(`${API_URL}${path}`)
+      if (res.ok) return await res.json()
+      if (res.status < 500) throw new Error(`API error ${res.status}`)  // 4xx: no reintentar
+      lastErr = new Error(`API ${res.status}`)                          // 5xx: reintentar
+    } catch (e) {
+      if (String(e.message).startsWith('API error 4')) throw e          // 4xx propaga
+      lastErr = e                                                       // error de red: reintentar
+    }
+    if (attempt < retries) await sleep(Math.min(2000 + attempt * 2500, 12000))
+  }
+  throw lastErr
 }
 
 export async function getSummary() {
