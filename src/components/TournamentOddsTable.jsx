@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const COLS = [
-  { key: 'prob_round_of_32', label: 'R32' },
-  { key: 'prob_round_of_16', label: 'R16' },
-  { key: 'prob_quarters', label: 'QF' },
-  { key: 'prob_semis', label: 'SF' },
-  { key: 'prob_final', label: 'Final' },
-  { key: 'prob_champion', label: 'Champion' },
+  { key: 'prob_round_of_32', label: 'r32' },
+  { key: 'prob_round_of_16', label: 'r16' },
+  { key: 'prob_quarters', label: 'qf' },
+  { key: 'prob_semis', label: 'sf' },
+  { key: 'prob_final', label: 'final' },
+  { key: 'prob_champion', label: 'champion' },
 ]
 
 // color de celda: más verde = más probable (normalizado por columna)
@@ -20,6 +21,7 @@ function cellStyle(v, max) {
 function fmt(v) { return v == null ? '—' : `${(v * 100).toFixed(1)}%` }
 
 export default function TournamentOddsTable({ teams }) {
+  const { t } = useTranslation()
   const [sort, setSort] = useState({ key: 'prob_champion', dir: 'desc' })
   const navigate = useNavigate()
 
@@ -54,11 +56,11 @@ export default function TournamentOddsTable({ teams }) {
       <table className="odds-table">
         <thead>
           <tr>
-            <th className="th-sort" onClick={() => onSort('team_name')}>Team{arrow('team_name')}</th>
-            <th className="th-sort" onClick={() => onSort('group_name')}>Group{arrow('group_name')}</th>
+            <th className="th-sort" onClick={() => onSort('team_name')}>{t('teamsPage.team')}{arrow('team_name')}</th>
+            <th className="th-sort" onClick={() => onSort('group_name')}>{t('teamsPage.group')}{arrow('group_name')}</th>
             {COLS.map((c) => (
               <th key={c.key} className="th-sort num" onClick={() => onSort(c.key)}>
-                {c.label}{arrow(c.key)}
+                {t(`oddsTable.${c.label}`)}{arrow(c.key)}
               </th>
             ))}
           </tr>

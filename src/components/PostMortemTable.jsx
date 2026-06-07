@@ -1,24 +1,28 @@
-function resultLabel(m) {
-  if (m.actual_home_score == null || m.actual_away_score == null) return '—'
-  if (m.actual_home_score > m.actual_away_score) return `${m.home_team} win`
-  if (m.actual_home_score < m.actual_away_score) return `${m.away_team} win`
-  return 'Draw'
-}
+import { useTranslation } from 'react-i18next'
 
 export default function PostMortemTable({ rows }) {
+  const { t } = useTranslation()
   if (!rows || rows.length === 0) return null
+
+  const resultLabel = (m) => {
+    if (m.actual_home_score == null || m.actual_away_score == null) return t('postmortem.na')
+    if (m.actual_home_score > m.actual_away_score) return t('postmortem.win', { team: m.home_team })
+    if (m.actual_home_score < m.actual_away_score) return t('postmortem.win', { team: m.away_team })
+    return t('postmortem.draw')
+  }
+
   return (
     <section>
-      <h2 className="section-title">Post-Mortem — Played Matches</h2>
+      <h2 className="section-title">{t('postmortem.title')}</h2>
       <div className="pm-wrap">
         <table className="pm">
           <thead>
             <tr>
-              <th>Match</th>
-              <th>Predicted Score</th>
-              <th>Actual Score</th>
-              <th>Result</th>
-              <th>Correct</th>
+              <th>{t('postmortem.match')}</th>
+              <th>{t('postmortem.predictedScore')}</th>
+              <th>{t('postmortem.actualScore')}</th>
+              <th>{t('postmortem.result')}</th>
+              <th>{t('postmortem.correct')}</th>
             </tr>
           </thead>
           <tbody>

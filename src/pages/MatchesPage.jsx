@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getPredictions, getPostmortem } from '../api.js'
 import SummaryBar from '../components/SummaryBar.jsx'
 import FilterBar from '../components/FilterBar.jsx'
@@ -7,6 +8,7 @@ import PostMortemTable from '../components/PostMortemTable.jsx'
 import TierStats from '../components/TierStats.jsx'
 
 export default function MatchesPage({ summary }) {
+  const { t } = useTranslation()
   const [postmortem, setPostmortem] = useState([])
   const [predictions, setPredictions] = useState([])
   const [filters, setFilters] = useState({ stage: '', group: '', tier: '', upcoming: false })
@@ -38,10 +40,10 @@ export default function MatchesPage({ summary }) {
         tiers={tierOptions.length ? tierOptions : undefined}
       />
 
-      {error && <div className="state">Could not load data: {error}</div>}
-      {loading && <div className="state">Loading predictions…</div>}
+      {error && <div className="state">{t('matchesPage.error', { error })}</div>}
+      {loading && <div className="state">{t('matchesPage.loading')}</div>}
       {!loading && !error && predictions.length === 0 && (
-        <div className="state">No matches for the selected filters.</div>
+        <div className="state">{t('matchesPage.noMatches')}</div>
       )}
 
       {!loading && predictions.length > 0 && (

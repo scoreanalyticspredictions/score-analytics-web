@@ -1,0 +1,202 @@
+{
+  "nav": {
+    "matches": "Partidos",
+    "groups": "Grupos",
+    "teams": "Equipos",
+    "about": "Acerca de"
+  },
+  "header": {
+    "badge": "Mundial FIFA 2026",
+    "searchPlaceholder": "Buscar equipo…",
+    "groupShort": "Grupo {{group}}"
+  },
+  "summary": {
+    "matchesPredicted": "Partidos predichos",
+    "completed": "Completados",
+    "modelAccuracy": "Precisión del modelo",
+    "currentStage": "Fase actual"
+  },
+  "filters": {
+    "stage": "Fase",
+    "allStages": "Todas las fases",
+    "group": "Grupo",
+    "allGroups": "Todos los grupos",
+    "groupOption": "Grupo {{group}}",
+    "tier": "Tier",
+    "allTiers": "Todos los tiers",
+    "tierOption": "Tier {{tier}} — {{desc}}",
+    "upcomingOnly": "Solo próximos"
+  },
+  "stages": {
+    "Group Stage": "Fase de grupos",
+    "Round of 32": "Dieciseisavos de final",
+    "Round of 16": "Octavos de final",
+    "Quarter-finals": "Cuartos de final",
+    "Semi-finals": "Semifinales",
+    "Final": "Final"
+  },
+  "match": {
+    "draw": "Empate",
+    "xg": "xG",
+    "clickForDetails": "Clic para ver detalles",
+    "venueTBD": "Sede por definir"
+  },
+  "modal": {
+    "groupBadge": "{{stage}} · Grupo {{group}}",
+    "bothTeamsToScore": "Ambos equipos anotan",
+    "exactScores": "Probabilidades de marcador exacto",
+    "goals": "goles",
+    "viewTeam": "Ver {{name}}",
+    "close": "Cerrar"
+  },
+  "tiers": {
+    "A": "Favorito contundente",
+    "B": "Favorito claro",
+    "C": "Tiende al empate",
+    "D": "Ligera ventaja",
+    "E": "Muy parejo",
+    "badge": "Tier {{tier}}",
+    "learnMore": "Clic para saber más"
+  },
+  "postmortem": {
+    "title": "Post-Mortem — Partidos jugados",
+    "match": "Partido",
+    "predictedScore": "Marcador predicho",
+    "actualScore": "Marcador real",
+    "result": "Resultado",
+    "correct": "Acierto",
+    "win": "Gana {{team}}",
+    "draw": "Empate",
+    "na": "—"
+  },
+  "tierStats": {
+    "title": "Tasa de acierto por tier",
+    "tier": "Tier",
+    "profile": "Perfil",
+    "matches": "Partidos",
+    "played": "Jugados",
+    "correct": "Aciertos",
+    "successRate": "Tasa de acierto",
+    "fillNote": "Las tasas se irán llenando conforme se jueguen los partidos."
+  },
+  "teamsPage": {
+    "title": "Probabilidades de torneo — Los 48 equipos",
+    "subtitle": "Probabilidad de alcanzar cada fase. Haz clic en un equipo para ver su panorama completo.",
+    "loading": "Cargando equipos…",
+    "error": "No se pudieron cargar los equipos: {{error}}",
+    "team": "Equipo",
+    "group": "Grupo"
+  },
+  "oddsTable": {
+    "r32": "16vos",
+    "r16": "8vos",
+    "qf": "4tos",
+    "sf": "Semis",
+    "final": "Final",
+    "champion": "Campeón"
+  },
+  "groupsPage": {
+    "title": "Grupos — Probabilidades de posición final",
+    "subtitle": "Probabilidad de cada equipo de terminar 1° / 2° / 3° / 4° en su grupo.",
+    "groupName": "Grupo {{name}}",
+    "loading": "Cargando grupos…",
+    "error": "No se pudieron cargar los grupos: {{error}}",
+    "first": "1°",
+    "second": "2°",
+    "third": "3°",
+    "fourth": "4°"
+  },
+  "teamPage": {
+    "allTeams": "← Todos los equipos",
+    "groupBadge": "Grupo {{name}}",
+    "tournamentOutlook": "Panorama en el torneo",
+    "groupStandingOdds": "Probabilidades de posición de grupo",
+    "upcomingMatches": "Próximos partidos",
+    "noUpcoming": "No hay próximos partidos.",
+    "results": "Resultados",
+    "loading": "Cargando equipo…",
+    "error": "No se pudo cargar el equipo: {{error}}"
+  },
+  "phases": {
+    "round_of_32": "Dieciseisavos",
+    "round_of_16": "Octavos",
+    "quarters": "Cuartos de final",
+    "semis": "Semifinales",
+    "final": "Final",
+    "champion": "Campeón"
+  },
+  "positions": {
+    "first": "1er lugar",
+    "second": "2° lugar",
+    "third": "3er lugar",
+    "fourth": "4° lugar"
+  },
+  "matchesPage": {
+    "loading": "Cargando predicciones…",
+    "noMatches": "No hay partidos para los filtros seleccionados.",
+    "error": "No se pudieron cargar los datos: {{error}}"
+  },
+  "footer": {
+    "disclaimer": "Predicciones generadas por un modelo estadístico. No es asesoría financiera ni de apuestas."
+  },
+  "kofi": {
+    "floating": "Ayuda a mejorar",
+    "inline": "Ayúdanos a agregar funciones"
+  },
+  "weather": {
+    "sunny": "Soleado",
+    "cloudy": "Nublado",
+    "rainy": "Lluvioso",
+    "domed": "Domo / techo cerrado"
+  },
+  "about": {
+    "title": "Acerca de Score Analytics Predictions",
+    "lead": "Una herramienta informativa que pronostica cada partido y resultado del Mundial 2026 con un modelo estadístico — con probabilidades transparentes y el razonamiento detrás de ellas.",
+    "navHowTo": "Cómo leer las predicciones",
+    "navModel": "Sobre el modelo",
+    "htr": {
+      "title": "Cómo leer las predicciones",
+      "intro": "Cada número del sitio es una probabilidad, no una promesa. El futbol es impredecible, y justo por eso lo expresamos como probabilidades. Esto es lo que significa cada parte.",
+      "wdlTitle": "Probabilidades de victoria / empate / derrota",
+      "wdlBody": "Cada partido muestra tres porcentajes: la probabilidad de que gane el primer equipo, de que terminen en empate o de que gane el segundo equipo. Siempre suman 100%. Un número más alto significa que el modelo considera ese resultado más probable, aunque hasta un favorito claro pierde de vez en cuando. Los etiquetamos con el código de tres letras de cada selección (por ejemplo, MEX – Empate – RSA) para que siempre quede claro quién es quién.",
+      "xgTitle": "xG — Expected Goals",
+      "xgBody": "xG estima cuántos goles se espera que anote un equipo, según la calidad y cantidad de ocasiones que probablemente genere. Un xG de 1.8 significa, a grandes rasgos, “unas dos ocasiones de gol”. Es una medida más estable de qué tan bien juega un equipo que el marcador final, que puede cambiar por un desvío o una atajada.",
+      "scoreTitle": "Marcador predicho",
+      "scoreBody": "Es el resultado más representativo del partido, derivado de las expectativas de goles. Tómalo como el resultado “típico”, no como una garantía: hay muchos otros marcadores posibles, y las probabilidades muestran cómo se reparte el resto.",
+      "bttsTitle": "BTTS — Ambos equipos anotan",
+      "bttsBody": "La probabilidad de que ambos equipos anoten al menos una vez. Es una lectura rápida del carácter del partido: un BTTS alto sugiere un juego abierto y de ida y vuelta, mientras que uno bajo apunta a un partido cerrado y trabado.",
+      "exactTitle": "Probabilidades de marcador exacto",
+      "exactBody": "Abre cualquier partido para ver la cuadrícula completa de marcadores exactos: los goles de un equipo en un eje y los del otro en el otro. Las celdas más verdes son más probables. Es la imagen completa detrás de ese único marcador predicho.",
+      "progTitle": "Probabilidades de avance en el torneo",
+      "progBody": "Para cada selección, la probabilidad de llegar a cada fase: octavos, cuartos, semifinales, la final y levantar el trofeo. Surgen de simular el torneo completo muchos miles de veces y contar cuántas veces llega cada equipo.",
+      "groupTitle": "Probabilidades de posición de grupo",
+      "groupBody": "Dentro de cada grupo, la probabilidad de cada equipo de terminar 1°, 2°, 3° o 4°. Los dos primeros de cada grupo avanzan a la fase eliminatoria, así que el 1° y el 2° son las posiciones “de clasificación” a vigilar.",
+      "tiersTitle": "Tiers de confianza",
+      "tiersIntro": "Cada partido lleva un tier de la A a la E que resume qué tan confiado está el modelo en un pronóstico claro. Es una forma rápida de distinguir un partido desbalanceado de un volado:",
+      "tiersA": "un resultado destaca claramente, por amplio margen.",
+      "tiersB": "un ganador probable, con una ventaja sólida pero menor.",
+      "tiersC": "sin favorito claro y el empate es una posibilidad real.",
+      "tiersD": "un lado es favorito, pero solo ligeramente.",
+      "tiersE": "muy parejo, sin un pronóstico confiable.",
+      "tiersGroupNote": "En la práctica, la mayoría de los partidos de la fase de grupos caen en los tiers A–C: un juego sin favorito claro suele tener una alta probabilidad de empate, lo que lo coloca en C. Los tiers más bajos, D y E, se reservan para los enfrentamientos muy parejos, así que los verás —si acaso— en las rondas eliminatorias.",
+      "tiersTrackNote": "Conforme se juegan los partidos, registramos la tasa de acierto de cada tier en la página principal, para que veas qué tan confiable es el modelo en cada nivel de confianza: cuanto más alto el tier, más seguido debería acertar."
+    },
+    "model": {
+      "title": "Sobre el modelo",
+      "approachTitle": "Enfoque y metodología",
+      "approachBody1": "Las predicciones provienen de un modelo estadístico híbrido. La fuerza base de cada selección se ancla en un sistema de rating que sigue los resultados internacionales a lo largo del tiempo y se ajusta por la calidad de cada plantilla. Un componente aparte, basado en goles, traduce esa fuerza en distribuciones realistas de marcadores: no solo victoria, empate o derrota, sino todo el rango de resultados plausibles. Ambos se combinan en un ensemble, y luego se simula el torneo completo decenas de miles de veces para producir las probabilidades de avance y de posición de grupo.",
+      "approachBody2": "En todo momento, el principio rector es la calibración: nos importa que una probabilidad declarada del 60% ocurra de verdad cerca del 60% de las veces, en vez de solo maximizar cuántos aciertos se logran. También aplicamos ajustes conservadores y con fundamento físico, específicos de un Mundial 2026 jugado en Norteamérica: efecto de local, la dimensión de viaje y continente, y condiciones de la sede como altitud, calor y si el estadio es techado.",
+      "dataTitle": "Fuentes de datos",
+      "dataBody": "El modelo se nutre de resultados históricos y actuales de partidos internacionales, valoraciones de mercado de plantillas y jugadores, los calendarios y sedes oficiales del torneo, y referencias climáticas de temporada para cada ciudad sede. Los precios de casas de apuestas “sharp” se usan solo como referencia externa de contexto —un chequeo contra el mercado—, nunca como algo que el modelo copie.",
+      "updateTitle": "Frecuencia de actualización por ronda",
+      "updateBody": "Los pronósticos se actualizan conforme avanza el torneo. Las predicciones de la fase de grupos se publican antes del arranque; luego, al cierre de cada ronda, se actualizan los ratings y la información de plantillas, y se vuelven a publicar los pronósticos de las rondas eliminatorias conforme se define el cuadro. Los resultados finales de los partidos jugados alimentan la tabla de post-mortem y el seguimiento de aciertos por tier.",
+      "limitsTitle": "Limitaciones",
+      "limitsBody": "Ningún modelo puede predecir el futbol con certeza. Los torneos internacionales son cortos, con pocos datos recientes por selección, recambio frecuente de plantillas y alta varianza de partido a partido: un solo juego es un evento ruidoso. Los ajustes de contexto (viaje, clima, altitud) son estimaciones informadas, no mediciones precisas, y el clima mostrado refleja las condiciones típicas de temporada en la sede, no un pronóstico en vivo. El modelo no sabe de lesiones, suspensiones, sorpresas tácticas o motivación durante el torneo. Lee cada número como una probabilidad, no como una profecía.",
+      "versionTitle": "Versión y aviso",
+      "versionBody": "Versión actual del modelo: 1.0.0. Score Analytics Predictions es una herramienta informativa y educativa. No es asesoría de apuestas, y nada aquí garantiza ningún resultado. Si decides apostar, hazlo de forma responsable y dentro de tus posibilidades: la decisión y el riesgo son enteramente tuyos."
+    },
+    "supportBody": "¿Te gusta el sitio? Ayúdanos a construir nuevas funciones: más mercados, estadísticas más profundas y mejores visualizaciones. Cada aporte va directo a mejorarlo.",
+    "contactTitle": "Contacto",
+    "contactBody": "¿Tienes preguntas sobre el modelo o la plataforma?"
+  }
+}

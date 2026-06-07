@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { teamCode } from '../teamCodes.js'
 import { teamIdByName } from '../teamLookup.js'
-import { TierBadge } from './MatchCard.jsx'
+import { TierBadge, localeOf } from './MatchCard.jsx'
 import WeatherIcon from './WeatherIcon.jsx'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
 
-function formatKickoff(ts) {
+function formatKickoff(ts, locale) {
   if (!ts) return ''
   try {
-    return new Date(ts).toLocaleString('en-US', {
+    return new Date(ts).toLocaleString(locale, {
       weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
     })
   } catch { return ts }
@@ -20,7 +21,7 @@ function ProbRow({ label, value, type, onLabelClick }) {
   return (
     <div className="prob-row">
       {onLabelClick
-        ? <button type="button" className="pk pk-link" onClick={onLabelClick} title={`View ${label}`}>{label}</button>
+        ? <button type="button" className="pk pk-link" onClick={onLabelClick} title={label}>{label}</button>
         : <span className="pk">{label}</span>}
       <div className={`bar ${type}`}><span style={{ width: `${pct(value)}%` }} /></div>
       <span className="pv">{pct(value)}%</span>
@@ -29,21 +30,22 @@ function ProbRow({ label, value, type, onLabelClick }) {
 }
 
 function TeamBlock({ name, flag, xg, onClick }) {
+  const { t } = useTranslation()
   return (
     <div
       className="team team-link" role="button" tabIndex={0}
       onClick={onClick} onKeyDown={(e) => { if (e.key === 'Enter') onClick() }}
-      title={`View ${name}`}
+      title={t('modal.viewTeam', { name })}
     >
       {flag && <img src={flag} alt={name} />}
       <div className="name">{name}</div>
-      <div className="xg">xG <b>{xg == null ? '—' : Number(xg).toFixed(2)}</b></div>
+      <div className="xg">{t('match.xg')} <b>{xg == null ? '—' : Number(xg).toFixed(2)}</b></div>
     </div>
   )
 }
 
-// Matriz de marcadores exactos: filas = goles local, columnas = goles visitante.
 function ScoreMatrix({ m }) {
+  const { t } = useTranslation()
   const grid = m.exact_score_probs || {}
   const entries = Object.entries(grid)
   if (entries.length === 0) return null
@@ -72,7 +74,7 @@ function ScoreMatrix({ m }) {
 
   return (
     <div className="matrix-wrap">
-      <div className="mx-axis-away">{teamCode(m.away_team)} goals →</div>
+      <div className="mx-axis-away">{teamCode(m.away_team)} {t('modal.goals')} →</div>
       <table className="score-matrix">
         <thead>
           <tr>
@@ -89,12 +91,13 @@ function ScoreMatrix({ m }) {
           ))}
         </tbody>
       </table>
-      <div className="mx-axis-home"><span>{teamCode(m.home_team)} goals ↓</span></div>
+      <div className="mx-axis-home"><span>{teamCode(m.home_team)} {t('modal.goals')} ↓</span></div>
     </div>
   )
 }
 
 export default function MatchDetailModal({ m, onClose }) {
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -105,7 +108,8 @@ export default function MatchDetailModal({ m, onClose }) {
   }, [onClose])
 
   if (!m) return null
-  const badge = m.group_name ? `${m.stage} · Group ${m.group_name}` : m.stage
+  const stageLabel = t(`stages.${m.stage}`, { defaultValue: m.stage })
+  const badge = m.group_name ? t('modal.groupBadge', { stage: stageLabel, group: m.group_name }) : stageLabel
 
   const goTeam = async (name) => {
     const id = await teamIdByName(name)
@@ -115,13 +119,13 @@ export default function MatchDetailModal({ m, onClose }) {
   return (
     <div className="modal-overlay" onMouseDown={onClose}>
       <div className="modal" onMouseDown={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
+        <button className="modal-close" onClick={onClose} aria-label={t('modal.close')}>×</button>
 
         <div className="modal-head">
           <span className="card-badge">{badge}</span>
           <div className="card-head-right">
             <TierBadge tier={m.tier} />
-            <span className="muted">{formatKickoff(m.match_date)}</span>
+            <span className="muted">{formatKickoff(m.match_date, localeOf(i18n))}</span>
           </div>
         </div>
 
@@ -143,13 +147,13 @@ export default function MatchDetailModal({ m, onClose }) {
 
         <div className="probs modal-probs">
           <ProbRow label={teamCode(m.home_team)} value={m.prob_home} type="home" onLabelClick={() => goTeam(m.home_team)} />
-          <ProbRow label="Draw" value={m.prob_draw} type="draw" />
+          <ProbRow label={t('match.draw')} value={m.prob_draw} type="draw" />
           <ProbRow label={teamCode(m.away_team)} value={m.prob_away} type="away" onLabelClick={() => goTeam(m.away_team)} />
         </div>
 
         {m.btts_prob != null && (
           <div className="modal-section">
-            <h4>Both Teams to Score</h4>
+            <h4>{t('modal.bothTeamsToScore')}</h4>
             <div className="btts">
               <div className="bar home"><span style={{ width: `${pct(m.btts_prob)}%` }} /></div>
               <span className="btts-val">{pct(m.btts_prob)}%</span>
@@ -159,7 +163,7 @@ export default function MatchDetailModal({ m, onClose }) {
 
         {Object.keys(m.exact_score_probs || {}).length > 0 && (
           <div className="modal-section">
-            <h4>Exact Score Probabilities</h4>
+            <h4>{t('modal.exactScores')}</h4>
             <ScoreMatrix m={m} />
           </div>
         )}

@@ -39,6 +39,17 @@ body {
 .header-sub { color: var(--muted); font-size: 13px; padding-bottom: 16px; }
 .header-sub b { color: var(--text); font-weight: 600; }
 
+/* ---------- Language toggle ---------- */
+.header-right { display: flex; align-items: center; gap: 14px; }
+.lang-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
+.lang-toggle button {
+  background: none; border: none; cursor: pointer; font: inherit; color: var(--muted);
+  padding: 2px; transition: color .12s;
+}
+.lang-toggle button.active { color: var(--accent); }
+.lang-toggle button:not(.active):hover { color: var(--text); }
+.lang-toggle .sep { color: var(--border); }
+
 /* ---------- Logo ---------- */
 .logo { display: block; height: 44px; width: auto; }
 .logo-sm { height: 30px; }

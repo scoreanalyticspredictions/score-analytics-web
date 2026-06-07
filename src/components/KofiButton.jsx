@@ -1,6 +1,8 @@
 // Botón de Ko-fi. El link real se inyecta por variable de entorno VITE_KOFI_URL
 // (lo pone el usuario en .env / Vercel). Variantes: inline (al pie de About) y
 // floating (FAB fijo en la esquina inferior derecha de toda la app).
+import { useTranslation } from 'react-i18next'
+
 const KOFI_URL = import.meta.env.VITE_KOFI_URL || 'https://ko-fi.com'
 
 function CupIcon({ size = 18 }) {
@@ -14,14 +16,15 @@ function CupIcon({ size = 18 }) {
 }
 
 export default function KofiButton({ floating = false }) {
+  const { t } = useTranslation()
   return (
     <a
       className={floating ? 'kofi-fab' : 'kofi-btn'}
       href={KOFI_URL} target="_blank" rel="noreferrer"
-      aria-label="Help us add new features on Ko-fi"
+      aria-label={t('kofi.inline')}
     >
       <CupIcon size={floating ? 20 : 18} />
-      <span>{floating ? 'Help add features' : 'Help us add new features'}</span>
+      <span>{floating ? t('kofi.floating') : t('kofi.inline')}</span>
     </a>
   )
 }

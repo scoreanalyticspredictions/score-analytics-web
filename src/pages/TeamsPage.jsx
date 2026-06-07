@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getTeams } from '../api.js'
 import TournamentOddsTable from '../components/TournamentOddsTable.jsx'
 
 export default function TeamsPage() {
+  const { t } = useTranslation()
   const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -16,10 +18,10 @@ export default function TeamsPage() {
 
   return (
     <section>
-      <h2 className="section-title">Tournament Odds — All 48 Teams</h2>
-      <p className="page-sub">Probability of reaching each stage. Click a team for its full outlook.</p>
-      {error && <div className="state">Could not load teams: {error}</div>}
-      {loading && <div className="state">Loading teams…</div>}
+      <h2 className="section-title">{t('teamsPage.title')}</h2>
+      <p className="page-sub">{t('teamsPage.subtitle')}</p>
+      {error && <div className="state">{t('teamsPage.error', { error })}</div>}
+      {loading && <div className="state">{t('teamsPage.loading')}</div>}
       {!loading && !error && teams.length > 0 && <TournamentOddsTable teams={teams} />}
     </section>
   )

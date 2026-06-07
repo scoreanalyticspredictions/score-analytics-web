@@ -1,37 +1,37 @@
-// Success rate del modelo por tier de apuesta (A..E).
-// Los tiers ordenan los partidos por confianza: A = pick más fuerte.
-const TIER_DESC = {
-  A: 'Strong favorite', B: 'Clear favorite', C: 'Draw-leaning',
-  D: 'Slight edge', E: 'Toss-up',
-}
+import { useTranslation } from 'react-i18next'
 
 export default function TierStats({ byTier }) {
+  const { t } = useTranslation()
   if (!byTier || byTier.length === 0) return null
-  const anyPlayed = byTier.some((t) => t.completed > 0)
+  const anyPlayed = byTier.some((x) => x.completed > 0)
 
   return (
     <section>
-      <h2 className="section-title">Success Rate by Bet Tier</h2>
+      <h2 className="section-title">{t('tierStats.title')}</h2>
       <div className="tier-wrap">
         <table className="tier-table">
           <thead>
             <tr>
-              <th>Tier</th><th>Profile</th><th>Matches</th><th>Played</th>
-              <th>Correct</th><th>Success Rate</th>
+              <th>{t('tierStats.tier')}</th>
+              <th>{t('tierStats.profile')}</th>
+              <th>{t('tierStats.matches')}</th>
+              <th>{t('tierStats.played')}</th>
+              <th>{t('tierStats.correct')}</th>
+              <th>{t('tierStats.successRate')}</th>
             </tr>
           </thead>
           <tbody>
-            {byTier.map((t) => (
-              <tr key={t.tier}>
-                <td><span className={`tier-badge tier-${t.tier}`}>Tier {t.tier}</span></td>
-                <td className="muted-cell">{TIER_DESC[t.tier] || '—'}</td>
-                <td className="num">{t.total}</td>
-                <td className="num">{t.completed}</td>
-                <td className="num">{t.completed ? t.correct : '—'}</td>
+            {byTier.map((x) => (
+              <tr key={x.tier}>
+                <td><span className={`tier-badge tier-${x.tier}`}>{t('tiers.badge', { tier: x.tier })}</span></td>
+                <td className="muted-cell">{t(`tiers.${x.tier}`, { defaultValue: '—' })}</td>
+                <td className="num">{x.total}</td>
+                <td className="num">{x.completed}</td>
+                <td className="num">{x.completed ? x.correct : '—'}</td>
                 <td className="num">
-                  {t.accuracy == null
+                  {x.accuracy == null
                     ? <span className="muted-cell">—</span>
-                    : <b className="tier-acc">{t.accuracy}%</b>}
+                    : <b className="tier-acc">{x.accuracy}%</b>}
                 </td>
               </tr>
             ))}
@@ -39,9 +39,7 @@ export default function TierStats({ byTier }) {
         </table>
       </div>
       {!anyPlayed && (
-        <p className="page-sub" style={{ marginTop: 10 }}>
-          Success rates fill in as matches are played.
-        </p>
+        <p className="page-sub" style={{ marginTop: 10 }}>{t('tierStats.fillNote')}</p>
       )}
     </section>
   )
