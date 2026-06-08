@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import ReactGA from 'react-ga4'
 import { getSummary } from './api.js'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
@@ -12,9 +13,17 @@ import AboutPage from './pages/AboutPage.jsx'
 
 export default function App() {
   const [summary, setSummary] = useState(null)
+  const location = useLocation()
 
-  // summary se usa en el Header (last updated) y en la home (SummaryBar)
+  // summary se usa en la home (SummaryBar)
   useEffect(() => { getSummary().then(setSummary).catch(() => {}) }, [])
+
+  // GA4: page view en cada cambio de ruta (solo si GA está inicializado)
+  useEffect(() => {
+    if (import.meta.env.VITE_GA_ID) {
+      ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search })
+    }
+  }, [location])
 
   return (
     <>
