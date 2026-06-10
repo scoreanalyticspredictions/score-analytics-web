@@ -14,7 +14,8 @@
     "matchesPredicted": "Partidos predichos",
     "completed": "Completados",
     "modelAccuracy": "Precisión del modelo",
-    "currentStage": "Fase actual"
+    "currentStage": "Fase actual",
+    "exactScoresCorrect": "Resultados clavados"
   },
   "filters": {
     "stage": "Fase",

@@ -115,16 +115,40 @@ const MOCK_POSTMORTEM = [
   },
 ].map((m) => ({ ...enrich(m), prediction_correct: m.prediction_correct }))
 
-const MOCK_SUMMARY = {
-  total_predictions: 72,
-  completed_matches: 3,
-  model_accuracy: 66.7,
-  last_updated: new Date().toISOString(),
-  by_tier: [
-    { tier: 'A', total: 28, completed: 2, correct: 2, accuracy: 100.0 },
-    { tier: 'B', total: 19, completed: 1, correct: 0, accuracy: 0.0 },
-    { tier: 'C', total: 25, completed: 0, correct: 0, accuracy: null },
-  ],
+// Summary mock derivado del subconjunto filtrado de MOCK_PREDICTIONS, con la
+// misma lógica que el backend, para que los 4 recuadros y la tabla de tiers
+// también respondan a los filtros en modo mock.
+const outcome = (h, a) => (h == null || a == null ? null : h > a ? 'home' : h < a ? 'away' : 'draw')
+const predOutcome = (m) => {
+  const o = { home: m.prob_home || 0, draw: m.prob_draw || 0, away: m.prob_away || 0 }
+  return Object.keys(o).reduce((b, k) => (o[k] > o[b] ? k : b), 'home')
+}
+function mockSummary({ stage, group, tier, upcoming } = {}) {
+  let r = MOCK_PREDICTIONS
+  if (stage) r = r.filter((m) => m.stage === stage)
+  if (group) r = r.filter((m) => m.group_name === group)
+  if (tier) r = r.filter((m) => m.tier === tier)
+  if (upcoming) r = r.filter((m) => new Date(m.match_date) >= new Date())
+  const done = r.filter((m) => m.actual_home_score != null)
+  const correct = done.filter((m) => predOutcome(m) === outcome(m.actual_home_score, m.actual_away_score)).length
+  const exact = done.filter(
+    (m) => m.predicted_home_score === m.actual_home_score && m.predicted_away_score === m.actual_away_score,
+  ).length
+  const tiers = [...new Set(r.map((m) => m.tier).filter(Boolean))].sort()
+  const by_tier = tiers.map((tg) => {
+    const grp = r.filter((m) => m.tier === tg)
+    const gd = grp.filter((m) => m.actual_home_score != null)
+    const ok = gd.filter((m) => predOutcome(m) === outcome(m.actual_home_score, m.actual_away_score)).length
+    return { tier: tg, total: grp.length, completed: gd.length, correct: ok, accuracy: gd.length ? +(100 * ok / gd.length).toFixed(1) : null }
+  })
+  return {
+    total_predictions: r.length,
+    completed_matches: done.length,
+    model_accuracy: done.length ? +(100 * correct / done.length).toFixed(1) : null,
+    exact_scores_correct: exact,
+    last_updated: new Date().toISOString(),
+    by_tier,
+  }
 }
 
 // ---------- mock de los 48 equipos (12 grupos) con odds derivadas de "fuerza" ----------
@@ -253,9 +277,15 @@ async function http(path, { retries = 8 } = {}) {
   throw lastErr
 }
 
-export async function getSummary() {
-  if (USE_MOCK) return MOCK_SUMMARY
-  return http('/api/summary')
+export async function getSummary({ stage, group, tier, upcoming } = {}) {
+  if (USE_MOCK) return mockSummary({ stage, group, tier, upcoming })
+  const qs = new URLSearchParams()
+  if (stage) qs.set('stage', stage)
+  if (group) qs.set('group', group)
+  if (tier) qs.set('tier', tier)
+  if (upcoming) qs.set('upcoming', 'true')
+  const q = qs.toString()
+  return http(`/api/summary${q ? `?${q}` : ''}`)
 }
 
 export async function getPredictions({ stage, group, tier, upcoming } = {}) {

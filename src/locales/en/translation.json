@@ -14,7 +14,8 @@
     "matchesPredicted": "Matches Predicted",
     "completed": "Completed",
     "modelAccuracy": "Model Accuracy",
-    "currentStage": "Current Stage"
+    "currentStage": "Current Stage",
+    "exactScoresCorrect": "Spot-On Scores"
   },
   "filters": {
     "stage": "Stage",

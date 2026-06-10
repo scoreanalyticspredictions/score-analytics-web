@@ -1,15 +1,14 @@
 import { useTranslation } from 'react-i18next'
 
-export default function SummaryBar({ summary, currentStage }) {
+export default function SummaryBar({ summary }) {
   const { t } = useTranslation()
   const s = summary || {}
   const accuracy = s.model_accuracy == null ? '—' : `${s.model_accuracy}%`
-  const stage = currentStage ? t(`stages.${currentStage}`, { defaultValue: currentStage }) : '—'
   const cards = [
     { label: t('summary.matchesPredicted'), value: s.total_predictions ?? '—' },
     { label: t('summary.completed'), value: s.completed_matches ?? '—' },
     { label: t('summary.modelAccuracy'), value: accuracy, accent: true },
-    { label: t('summary.currentStage'), value: stage },
+    { label: t('summary.exactScoresCorrect'), value: s.exact_scores_correct ?? '—' },
   ]
   return (
     <div className="summary">
