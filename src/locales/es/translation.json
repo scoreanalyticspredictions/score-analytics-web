@@ -40,7 +40,10 @@
     "draw": "Empate",
     "xg": "xG",
     "clickForDetails": "Clic para ver detalles",
-    "venueTBD": "Sede por definir"
+    "venueTBD": "Sede por definir",
+    "predicted": "Pronóstico",
+    "final": "Final",
+    "spotOn": "Marcador clavado"
   },
   "modal": {
     "groupBadge": "{{stage}} · Grupo {{group}}",
@@ -48,7 +51,9 @@
     "exactScores": "Probabilidades de marcador exacto",
     "goals": "goles",
     "viewTeam": "Ver {{name}}",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "legendPredicted": "Pronóstico",
+    "legendActual": "Resultado"
   },
   "tiers": {
     "A": "Favorito contundente",

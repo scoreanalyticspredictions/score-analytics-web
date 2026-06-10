@@ -19,9 +19,9 @@ export function formatKickoff(ts, locale) {
   } catch { return ts }
 }
 
-function ProbRow({ label, value, type }) {
+function ProbRow({ label, value, type, hit }) {
   return (
-    <div className="prob-row">
+    <div className={`prob-row${hit ? ' hit' : ''}`}>
       <span className="pk">{label}</span>
       <div className={`bar ${type}`}><span style={{ width: `${pct(value)}%` }} /></div>
       <span className="pv">{pct(value)}%</span>
@@ -73,16 +73,40 @@ export function MatchFooter({ m }) {
   )
 }
 
+// outcome real / pronosticado de un partido (cuando ya hay marcador real)
+export function outcomeOf(h, a) {
+  if (h == null || a == null) return null
+  return h > a ? 'home' : h < a ? 'away' : 'draw'
+}
+export function predictedOutcome(m) {
+  const o = { home: m.prob_home || 0, draw: m.prob_draw || 0, away: m.prob_away || 0 }
+  return Object.keys(o).reduce((b, k) => (o[k] > o[b] ? k : b), 'home')
+}
+// estado de resultado de un partido -> clases/flags reutilizables (tarjeta y modal)
+export function resultState(m) {
+  const played = m.actual_home_score != null && m.actual_away_score != null
+  const actualOutcome = played ? outcomeOf(m.actual_home_score, m.actual_away_score) : null
+  const correct = played && actualOutcome === predictedOutcome(m)
+  const spotOn = played
+    && m.predicted_home_score === m.actual_home_score
+    && m.predicted_away_score === m.actual_away_score
+  const cls = spotOn ? 'result-spoton' : correct ? 'result-correct' : played ? 'result-wrong' : ''
+  return { played, actualOutcome, correct, spotOn, cls }
+}
+
 export default function MatchCard({ m, compact = false }) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const stageLabel = t(`stages.${m.stage}`, { defaultValue: m.stage })
   const badge = m.group_name ? `${stageLabel} · ${m.group_name}` : stageLabel
 
+  // estado del resultado real (si el partido ya se jugó)
+  const { played, actualOutcome, correct, spotOn, cls } = resultState(m)
+
   return (
     <>
       <div
-        className={`card clickable${compact ? ' compact' : ''}`}
+        className={`card clickable${compact ? ' compact' : ''}${cls ? ' ' + cls : ''}`}
         onClick={() => setOpen(true)}
         role="button" tabIndex={0}
         onKeyDown={(e) => { if (e.key === 'Enter') setOpen(true) }}
@@ -95,16 +119,30 @@ export default function MatchCard({ m, compact = false }) {
         <div className="card-teams">
           <Team name={m.home_team} flag={m.home_flag} xg={m.xg_home} />
           <div className="score">
-            {m.predicted_home_score ?? '–'}<span className="dash">—</span>{m.predicted_away_score ?? '–'}
+            {played && <div className="score-cap">{t('match.predicted')}</div>}
+            <div className="score-nums">
+              {m.predicted_home_score ?? '–'}<span className="dash">—</span>{m.predicted_away_score ?? '–'}
+            </div>
           </div>
           <Team name={m.away_team} flag={m.away_flag} xg={m.xg_away} />
         </div>
 
+        {played && (
+          <div className={`result-strip ${spotOn ? 'spoton' : correct ? 'ok' : 'bad'}`}>
+            <span className="rs-label">{t('match.final')}</span>
+            <span className="rs-score">
+              {m.actual_home_score}<span className="dash">—</span>{m.actual_away_score}
+            </span>
+            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : '✗'}</span>
+            {spotOn && <span className="rs-tag">{t('match.spotOn')}</span>}
+          </div>
+        )}
+
         {!compact && (
           <div className="probs">
-            <ProbRow label={teamCode(m.home_team)} value={m.prob_home} type="home" />
-            <ProbRow label={t('match.draw')} value={m.prob_draw} type="draw" />
-            <ProbRow label={teamCode(m.away_team)} value={m.prob_away} type="away" />
+            <ProbRow label={teamCode(m.home_team)} value={m.prob_home} type="home" hit={actualOutcome === 'home'} />
+            <ProbRow label={t('match.draw')} value={m.prob_draw} type="draw" hit={actualOutcome === 'draw'} />
+            <ProbRow label={teamCode(m.away_team)} value={m.prob_away} type="away" hit={actualOutcome === 'away'} />
           </div>
         )}
 

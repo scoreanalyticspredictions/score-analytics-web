@@ -12,6 +12,8 @@
   --away: #f0883e;
   --green: #3fb950;
   --red: #f85149;
+  --red-dim: #8b3a3a;
+  --gold: #e3b341;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -89,7 +91,7 @@ main.container { padding-top: 22px; }   /* separa el contenido del Header/menús
 .toggle span { font-size: 14px; }
 
 /* ---------- MatchCard ---------- */
-.matches { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.matches { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin-top: 28px; }
 .card {
   background: var(--panel); border: 1px solid var(--border);
   border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px;
@@ -106,7 +108,9 @@ main.container { padding-top: 22px; }   /* separa el contenido del Header/menús
 }
 .team .xg { font-size: 11px; color: var(--muted); }
 .team .xg b { color: var(--accent); font-weight: 700; }
-.score { font-size: 26px; font-weight: 800; letter-spacing: 1px; white-space: nowrap; }
+.score { display: flex; flex-direction: column; align-items: center; gap: 2px; white-space: nowrap; }
+.score-nums { font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+.score-cap { font-size: 9px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-weight: 700; }
 .score .dash { color: var(--muted); margin: 0 6px; }
 .probs { display: flex; flex-direction: column; gap: 7px; }
 .prob-row { display: grid; grid-template-columns: 46px 1fr 42px; align-items: center; gap: 8px; font-size: 12px; }
@@ -117,6 +121,35 @@ main.container { padding-top: 22px; }   /* separa el contenido del Header/menús
 .bar.home > span { background: var(--home); }
 .bar.draw > span { background: var(--draw); }
 .bar.away > span { background: var(--away); }
+
+/* fila de probabilidad que SÍ se cumplió (el resultado real) */
+.prob-row.hit .pk, .prob-row.hit .pv { color: var(--text); font-weight: 800; }
+.prob-row.hit .bar { height: 9px; box-shadow: 0 0 0 2px rgba(230, 237, 243, 0.25); }
+.prob-row.hit .pv::after { content: " ✓"; color: var(--green); font-weight: 800; }
+
+/* franja con el resultado real del partido */
+.result-strip {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--panel-2); border-radius: 8px; padding: 6px 10px;
+  font-size: 13px; border: 1px solid var(--border);
+}
+.result-strip .rs-label { color: var(--muted); text-transform: uppercase; font-size: 10px; letter-spacing: .6px; font-weight: 700; }
+.result-strip .rs-score { font-weight: 800; font-size: 16px; }
+.result-strip .rs-score .dash { margin: 0 5px; }
+.result-strip .rs-mark { font-weight: 800; font-size: 15px; }
+.result-strip .rs-tag { color: var(--gold); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+.result-strip.ok .rs-mark { color: var(--green); }
+.result-strip.bad .rs-mark { color: var(--red); }
+.result-strip.spoton { border-color: var(--gold); }
+.result-strip.spoton .rs-mark { color: var(--gold); }
+
+/* bordes de resultado en la tarjeta: verde = acertó 1X2, dorado = clavó marcador */
+.card.result-correct { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+.card.result-spoton { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.card.result-wrong { border-color: var(--red-dim); box-shadow: 0 0 0 1px var(--red-dim); }
+.card.clickable.result-correct:hover { border-color: var(--green); }
+.card.clickable.result-spoton:hover { border-color: var(--gold); }
+.card.clickable.result-wrong:hover { border-color: var(--red-dim); }
 
 /* ---------- PostMortemTable ---------- */
 .section-title { font-size: 18px; font-weight: 700; margin: 36px 0 14px; }
@@ -314,6 +347,23 @@ table.pm tr:last-child td { border-bottom: none; }
   border-radius: 5px; padding: 6px 2px; min-width: 30px;
 }
 .mx-cell.pred { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* celda del marcador real: borde blanco; dorado si coincide con el pronóstico (clavado) */
+.mx-cell.actual { box-shadow: inset 0 0 0 2px var(--text); }
+.mx-cell.pred.actual { outline-color: var(--gold); box-shadow: inset 0 0 0 2px var(--gold); }
+
+/* leyenda de la matriz (qué significan los bordes) */
+.mx-legend { display: flex; gap: 14px; margin-top: 8px; font-size: 11px; color: var(--muted); }
+.mx-legend .lg { display: inline-flex; align-items: center; gap: 6px; }
+.mx-legend .lg::before {
+  content: ""; width: 12px; height: 12px; border-radius: 3px; background: var(--panel-2);
+}
+.mx-legend .lg-pred::before { outline: 2px solid var(--accent); outline-offset: -2px; }
+.mx-legend .lg-actual::before { box-shadow: inset 0 0 0 2px var(--text); }
+
+/* bordes de resultado en el modal (verde acierto / dorado clavado / rojo tenue fallo) */
+.modal.result-correct { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+.modal.result-spoton { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.modal.result-wrong { border-color: var(--red-dim); box-shadow: 0 0 0 1px var(--red-dim); }
 
 /* ---------- TierStats table ---------- */
 .tier-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }

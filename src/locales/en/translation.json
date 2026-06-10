@@ -40,7 +40,10 @@
     "draw": "Draw",
     "xg": "xG",
     "clickForDetails": "Click for details",
-    "venueTBD": "Venue TBD"
+    "venueTBD": "Venue TBD",
+    "predicted": "Predicted",
+    "final": "Final",
+    "spotOn": "Exact score"
   },
   "modal": {
     "groupBadge": "{{stage}} · Group {{group}}",
@@ -48,7 +51,9 @@
     "exactScores": "Exact Score Probabilities",
     "goals": "goals",
     "viewTeam": "View {{name}}",
-    "close": "Close"
+    "close": "Close",
+    "legendPredicted": "Predicted",
+    "legendActual": "Result"
   },
   "tiers": {
     "A": "Strong favorite",
