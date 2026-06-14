@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { getPredictions, getPostmortem, getSummary } from '../api.js'
+import { getPredictions, getSummary } from '../api.js'
 import SummaryBar from '../components/SummaryBar.jsx'
 import FilterBar from '../components/FilterBar.jsx'
 import MatchCard from '../components/MatchCard.jsx'
-import PostMortemTable from '../components/PostMortemTable.jsx'
 import TierStats from '../components/TierStats.jsx'
 
 export default function MatchesPage({ summary }) {
   const { t } = useTranslation()
-  const [postmortem, setPostmortem] = useState([])
   const [predictions, setPredictions] = useState([])
   const [filteredSummary, setFilteredSummary] = useState(null)
   const [filters, setFilters] = useState({ stage: '', group: '', tier: '', upcoming: false })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  useEffect(() => { getPostmortem().then(setPostmortem).catch(() => {}) }, [])
 
   useEffect(() => {
     setLoading(true)
@@ -55,8 +51,6 @@ export default function MatchesPage({ summary }) {
           {predictions.map((m) => <MatchCard key={m.fixture_id} m={m} />)}
         </div>
       )}
-
-      <PostMortemTable rows={postmortem} />
     </>
   )
 }
