@@ -120,6 +120,8 @@ const MOCK_POSTMORTEM = [
 // también respondan a los filtros en modo mock.
 const outcome = (h, a) => (h == null || a == null ? null : h > a ? 'home' : h < a ? 'away' : 'draw')
 const predOutcome = (m) => {
+  const h = m.predicted_home_score, a = m.predicted_away_score
+  if (h != null && a != null) return h > a ? 'home' : h < a ? 'away' : 'draw'
   const o = { home: m.prob_home || 0, draw: m.prob_draw || 0, away: m.prob_away || 0 }
   return Object.keys(o).reduce((b, k) => (o[k] > o[b] ? k : b), 'home')
 }
@@ -288,13 +290,17 @@ export async function getSummary({ stage, group, tier, upcoming } = {}) {
   return http(`/api/summary${q ? `?${q}` : ''}`)
 }
 
-export async function getPredictions({ stage, group, tier, upcoming } = {}) {
+// date = 'YYYY-MM-DD' (fecha-calendario en horario CST)
+const cstDate = (ts) => new Date(ts).toLocaleDateString('en-CA', { timeZone: 'America/Mexico_City' })
+
+export async function getPredictions({ stage, group, tier, upcoming, date } = {}) {
   if (USE_MOCK) {
     let r = MOCK_PREDICTIONS
     if (stage) r = r.filter((m) => m.stage === stage)
     if (group) r = r.filter((m) => m.group_name === group)
     if (tier) r = r.filter((m) => m.tier === tier)
     if (upcoming) r = r.filter((m) => new Date(m.match_date) >= new Date())
+    if (date) r = r.filter((m) => cstDate(m.match_date) === date)
     return [...r].sort((a, b) => new Date(a.match_date) - new Date(b.match_date))
   }
   const qs = new URLSearchParams()
@@ -302,6 +308,7 @@ export async function getPredictions({ stage, group, tier, upcoming } = {}) {
   if (group) qs.set('group', group)
   if (tier) qs.set('tier', tier)
   if (upcoming) qs.set('upcoming', 'true')
+  if (date) qs.set('date', date)
   const q = qs.toString()
   return http(`/api/predictions${q ? `?${q}` : ''}`)
 }

@@ -78,7 +78,11 @@ export function outcomeOf(h, a) {
   if (h == null || a == null) return null
   return h > a ? 'home' : h < a ? 'away' : 'draw'
 }
+// desenlace pronosticado = el del MARCADOR predicho (si el marcador es empate,
+// el acierto es el empate). Cae al 1X2 más probable si no hay marcador predicho.
 export function predictedOutcome(m) {
+  const h = m.predicted_home_score, a = m.predicted_away_score
+  if (h != null && a != null) return h > a ? 'home' : h < a ? 'away' : 'draw'
   const o = { home: m.prob_home || 0, draw: m.prob_draw || 0, away: m.prob_away || 0 }
   return Object.keys(o).reduce((b, k) => (o[k] > o[b] ? k : b), 'home')
 }
