@@ -3,7 +3,22 @@
     "matches": "Partidos",
     "groups": "Grupos",
     "teams": "Equipos",
+    "generate": "Generar",
     "about": "Acerca de"
+  },
+  "generate": {
+    "title": "Generador de posts para Instagram",
+    "subtitle": "Crea una imagen lista para compartir con las predicciones del día.",
+    "date": "Fecha",
+    "imageLanguage": "Idioma de la imagen",
+    "loading": "Cargando partidos…",
+    "error": "No se pudieron cargar los partidos: {{error}}",
+    "noMatches": "No hay partidos en esta fecha.",
+    "selectUpTo": "Selecciona hasta {{max}} partidos.",
+    "selectedCount": "{{n}}/{{max}} seleccionados",
+    "generate": "Generar imagen",
+    "generating": "Generando…",
+    "download": "Descargar PNG"
   },
   "header": {
     "badge": "Mundial FIFA 2026",
@@ -100,6 +115,11 @@
     "sf": "Semis",
     "final": "Final",
     "champion": "Campeón"
+  },
+  "phaseFilter": {
+    "label": "Probabilidades:",
+    "inicio": "Inicio del torneo",
+    "jornada": "Tras jornada {{n}}"
   },
   "groupsPage": {
     "title": "Grupos — Probabilidades de posición final",

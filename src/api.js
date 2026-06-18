@@ -318,21 +318,27 @@ export async function getPostmortem() {
   return http('/api/predictions/postmortem')
 }
 
-export async function getTeams() {
+export async function getTeams(phase) {
   if (USE_MOCK) return MOCK_TEAMS
-  return http('/api/teams')
+  return http(`/api/teams${phase ? `?phase=${encodeURIComponent(phase)}` : ''}`)
 }
 
-export async function getTeam(id) {
+export async function getTeam(id, phase) {
   if (USE_MOCK) {
     const d = mockTeamDetail(Number(id))
     if (!d) throw new Error('Team not found')
     return d
   }
-  return http(`/api/teams/${id}`)
+  return http(`/api/teams/${id}${phase ? `?phase=${encodeURIComponent(phase)}` : ''}`)
 }
 
-export async function getGroups() {
+export async function getGroups(phase) {
   if (USE_MOCK) return mockGroups()
-  return http('/api/groups')
+  return http(`/api/groups${phase ? `?phase=${encodeURIComponent(phase)}` : ''}`)
+}
+
+// Fotos de odds disponibles (inicio/j1/...) + la más reciente como default.
+export async function getPhases() {
+  if (USE_MOCK) return { phases: ['inicio'], default: 'inicio' }
+  return http('/api/phases')
 }

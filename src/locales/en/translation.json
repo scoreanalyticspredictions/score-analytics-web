@@ -3,7 +3,22 @@
     "matches": "Matches",
     "groups": "Groups",
     "teams": "Teams",
+    "generate": "Generate",
     "about": "About"
+  },
+  "generate": {
+    "title": "Instagram Post Generator",
+    "subtitle": "Build a shareable image with the day's match predictions.",
+    "date": "Date",
+    "imageLanguage": "Image language",
+    "loading": "Loading matches…",
+    "error": "Could not load matches: {{error}}",
+    "noMatches": "No matches on this date.",
+    "selectUpTo": "Select up to {{max}} matches.",
+    "selectedCount": "{{n}}/{{max}} selected",
+    "generate": "Generate image",
+    "generating": "Generating…",
+    "download": "Download PNG"
   },
   "header": {
     "badge": "FIFA World Cup 2026",
@@ -100,6 +115,11 @@
     "sf": "SF",
     "final": "Final",
     "champion": "Champion"
+  },
+  "phaseFilter": {
+    "label": "Odds:",
+    "inicio": "Tournament start",
+    "jornada": "After matchday {{n}}"
   },
   "groupsPage": {
     "title": "Groups — Final Position Probabilities",

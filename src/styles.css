@@ -426,6 +426,58 @@ table.pm tr:last-child td { border-bottom: none; }
 }
 .kofi-fab:hover { background: #ff4744; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,.55); }
 
+/* ---------- Generate (Instagram post) page ---------- */
+.generate { padding-top: 4px; }
+.gen-controls { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; margin: 4px 0 18px; }
+.gen-field { display: flex; flex-direction: column; gap: 6px; }
+.gen-field label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.gen-field input[type="date"] {
+  background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 12px; font-size: 14px; font-family: inherit; color-scheme: dark;
+}
+.gen-field input[type="date"]:focus { outline: none; border-color: var(--accent); }
+.gen-lang { padding: 8px 4px; }
+
+.gen-pickhint { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.gen-count { margin-left: auto; font-weight: 700; color: var(--accent); }
+
+.gen-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+.gen-item {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+  transition: border-color .12s, background .12s;
+}
+.gen-item.on { border-color: var(--accent); background: var(--accent-dim); }
+.gen-item.disabled { opacity: .45; }
+.gen-item label {
+  display: grid; grid-template-columns: 20px 28px 1fr auto auto; align-items: center; gap: 12px;
+  padding: 11px 14px; cursor: pointer;
+}
+.gen-item.disabled label { cursor: not-allowed; }
+.gen-item input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--accent); cursor: inherit; }
+.gi-group { font-weight: 800; color: var(--muted); text-align: center; }
+.gi-teams { font-weight: 600; font-size: 14px; }
+.gi-teams em { color: var(--muted); font-style: normal; font-weight: 400; margin: 0 4px; }
+.gi-score { font-weight: 800; color: var(--accent); white-space: nowrap; }
+.gi-time { color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+.gen-actions { display: flex; gap: 12px; margin-bottom: 24px; }
+.btn {
+  font-family: inherit; font-weight: 700; font-size: 14px; border-radius: 9px;
+  padding: 11px 20px; cursor: pointer; border: 1px solid transparent; transition: filter .12s, transform .1s, opacity .12s;
+}
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: #06241e; }
+.btn-primary:not(:disabled):hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-ghost { background: var(--panel-2); color: var(--text); border-color: var(--border); }
+.btn-ghost:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
+
+.gen-canvas-wrap { display: none; }
+.gen-canvas-wrap.show { display: block; }
+.gen-canvas {
+  width: 100%; max-width: 540px; height: auto; display: block;
+  border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,.45);
+}
+
 @media (max-width: 760px) {
   .summary { grid-template-columns: repeat(2, 1fr); }
   .header-top { flex-direction: column; align-items: flex-start; gap: 12px; }
@@ -433,4 +485,14 @@ table.pm tr:last-child td { border-bottom: none; }
   .team-search input { min-width: 140px; }
   .kofi-fab span { display: none; }
   .kofi-fab { padding: 14px; }
+  .gen-item label { grid-template-columns: 18px 24px 1fr auto; gap: 8px; }
+  .gi-time { display: none; }
 }
+
+/* ---------- Phase filter (foto de odds: inicio / tras jornada N) ---------- */
+.phase-filter { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 4px 0 18px; }
+.phase-filter-label { font-size: 13px; font-weight: 600; color: var(--muted); }
+.phase-seg { display: inline-flex; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; }
+.phase-opt { background: transparent; border: none; color: var(--muted); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 999px; cursor: pointer; transition: all .15s; }
+.phase-opt:hover { color: var(--text); }
+.phase-opt.active { background: var(--accent-dim); color: var(--accent); }

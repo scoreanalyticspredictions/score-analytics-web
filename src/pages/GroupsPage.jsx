@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { getGroups } from '../api.js'
+import { getGroups, getPhases } from '../api.js'
 import { useTeamName } from '../teamNames.js'
+import PhaseFilter from '../components/PhaseFilter.jsx'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
 
@@ -54,20 +55,31 @@ function GroupCard({ group }) {
 export default function GroupsPage() {
   const { t } = useTranslation()
   const [groups, setGroups] = useState([])
+  const [phases, setPhases] = useState([])
+  const [phase, setPhase] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    getGroups()
+    getPhases()
+      .then((d) => { setPhases(d.phases || []); setPhase(d.default || 'inicio') })
+      .catch(() => { setPhases([]); setPhase('inicio') })
+  }, [])
+
+  useEffect(() => {
+    if (!phase) return
+    setLoading(true)
+    getGroups(phase)
       .then((d) => { setGroups(d); setError(null) })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
-  }, [])
+  }, [phase])
 
   return (
     <section>
       <h2 className="section-title">{t('groupsPage.title')}</h2>
       <p className="page-sub">{t('groupsPage.subtitle')}</p>
+      <PhaseFilter phases={phases} value={phase} onChange={setPhase} />
       {error && <div className="state">{t('groupsPage.error', { error })}</div>}
       {loading && <div className="state">{t('groupsPage.loading')}</div>}
       {!loading && !error && (

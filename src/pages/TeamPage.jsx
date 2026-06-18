@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { getTeam } from '../api.js'
+import { getTeam, getPhases } from '../api.js'
 import MatchCard from '../components/MatchCard.jsx'
 import PostMortemTable from '../components/PostMortemTable.jsx'
+import PhaseFilter from '../components/PhaseFilter.jsx'
 import { useTeamName } from '../teamNames.js'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
@@ -39,16 +40,25 @@ export default function TeamPage() {
   const tn = useTeamName()
   const { id } = useParams()
   const [data, setData] = useState(null)
+  const [phases, setPhases] = useState([])
+  const [phase, setPhase] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    getPhases()
+      .then((d) => { setPhases(d.phases || []); setPhase(d.default || 'inicio') })
+      .catch(() => { setPhases([]); setPhase('inicio') })
+  }, [])
+
+  useEffect(() => {
+    if (!phase) return
     setLoading(true)
-    getTeam(id)
+    getTeam(id, phase)
       .then((d) => { setData(d); setError(null) })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
-  }, [id])
+  }, [id, phase])
 
   if (loading) return <div className="state">{t('teamPage.loading')}</div>
   if (error) return <div className="state">{t('teamPage.error', { error })}</div>
@@ -67,6 +77,8 @@ export default function TeamPage() {
           {data.group_name && <span className="badge-wc">{t('teamPage.groupBadge', { name: data.group_name })}</span>}
         </div>
       </div>
+
+      <PhaseFilter phases={phases} value={phase} onChange={setPhase} />
 
       <section className="team-section">
         <h3>{t('teamPage.tournamentOutlook')}</h3>
