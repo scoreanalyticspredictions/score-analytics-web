@@ -12,6 +12,10 @@ const COLS = [
   { key: 'prob_champion', label: 'champion' },
 ]
 
+// orden de profundidad para el desempato en cascada (de la ronda más profunda
+// a la menos): así los eliminados (0% en todas) quedan siempre al final.
+const DEPTH = ['prob_champion', 'prob_final', 'prob_semis', 'prob_quarters', 'prob_round_of_16', 'prob_round_of_32']
+
 // color de celda: más verde = más probable (normalizado por columna)
 function cellStyle(v, max) {
   if (v == null) return {}
@@ -36,15 +40,24 @@ export default function TournamentOddsTable({ teams }) {
   const sorted = useMemo(() => {
     const arr = [...teams]
     const { key, dir } = sort
-    arr.sort((a, b) => {
-      let va = a[key], vb = b[key]
-      if (typeof va === 'string' || typeof vb === 'string') {
-        va = (va || '').toString(); vb = (vb || '').toString()
+    if (key === 'team_name' || key === 'group_name') {
+      arr.sort((a, b) => {
+        const va = (a[key] || '').toString(), vb = (b[key] || '').toString()
         return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va)
-      }
-      va = va ?? -1; vb = vb ?? -1
-      return dir === 'asc' ? va - vb : vb - va
-    })
+      })
+    } else {
+      // cascada: la columna elegida primero y, como desempate, las demás rondas
+      // en orden de profundidad (campeón → final → semis → … → R32).
+      const order = [key, ...DEPTH.filter((k) => k !== key)]
+      const mult = dir === 'asc' ? 1 : -1
+      arr.sort((a, b) => {
+        for (const k of order) {
+          const va = a[k] ?? -1, vb = b[k] ?? -1
+          if (va !== vb) return mult * (va - vb)
+        }
+        return 0
+      })
+    }
     return arr
   }, [teams, sort])
 
