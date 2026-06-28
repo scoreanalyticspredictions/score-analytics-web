@@ -132,7 +132,19 @@
     "first": "1st",
     "second": "2nd",
     "third": "3rd",
-    "fourth": "4th"
+    "fourth": "4th",
+    "subtitleFinal": "Final group standings after matchday 3 — actual positions and points.",
+    "colTeam": "Team",
+    "colPlayed": "MP",
+    "colWon": "W",
+    "colDrawn": "D",
+    "colLost": "L",
+    "colGF": "GF",
+    "colGA": "GA",
+    "colGD": "GD",
+    "colPts": "Pts",
+    "qualified": "Qualified",
+    "notation": "MP played · W won · D drawn · L lost · GF goals for · GA goals against · GD goal difference · Pts points"
   },
   "teamPage": {
     "allTeams": "← All teams",

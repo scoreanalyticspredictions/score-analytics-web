@@ -285,6 +285,27 @@ table.pm tr:last-child td { border-bottom: none; }
 .dot.pos2 { background: #539bf5; }
 .dot.pos3 { background: var(--away); }
 .dot.pos4 { background: var(--draw); }
+.dot.qualified { background: var(--gold); }
+
+/* tabla final del grupo (foto "tras jornada 3") */
+.groups-grid.final { grid-template-columns: repeat(auto-fill, minmax(430px, 1fr)); }
+.group-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.group-table th { color: var(--muted); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .3px; padding: 5px 4px; border-bottom: 1px solid var(--border); }
+.group-table td { padding: 7px 4px; color: var(--text); border-bottom: 1px solid rgba(255,255,255,.05); }
+.group-table tbody tr { cursor: pointer; }
+.group-table tbody tr:hover { background: var(--panel-2); }
+.group-table tbody tr:hover .gt-name { color: var(--accent); }
+.group-table .gt-c { text-align: center; }
+.group-table .gt-l { text-align: left; }
+.group-table .gt-pos { color: var(--muted); font-weight: 700; width: 20px; }
+.group-table .gt-pts { font-weight: 800; }
+.gt-team { display: flex; align-items: center; gap: 8px; }
+.gt-team img { width: 22px; height: 15px; object-fit: cover; border-radius: 3px; flex: none; }
+.gt-team .gt-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gt-team .dot.qualified { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.groups-notation { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-size: 11.5px; color: var(--muted); }
+.groups-notation span { display: flex; align-items: center; gap: 6px; }
+.groups-notation .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 
 /* ---------- TeamPage ---------- */
 .team-page { padding-top: 8px; }

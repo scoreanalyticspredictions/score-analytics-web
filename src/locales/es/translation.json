@@ -132,7 +132,19 @@
     "first": "1°",
     "second": "2°",
     "third": "3°",
-    "fourth": "4°"
+    "fourth": "4°",
+    "subtitleFinal": "Tabla final de los grupos tras la jornada 3 — posiciones y puntos reales.",
+    "colTeam": "Equipo",
+    "colPlayed": "PJ",
+    "colWon": "G",
+    "colDrawn": "E",
+    "colLost": "P",
+    "colGF": "GF",
+    "colGA": "GC",
+    "colGD": "DG",
+    "colPts": "Pts",
+    "qualified": "Clasificado",
+    "notation": "PJ jugados · G ganados · E empatados · P perdidos · GF goles a favor · GC goles en contra · DG diferencia · Pts puntos"
   },
   "teamPage": {
     "allTeams": "← Todos los equipos",
