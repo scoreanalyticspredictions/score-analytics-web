@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { teamCode } from '../teamCodes.js'
 import { useTeamName } from '../teamNames.js'
 import { teamIdByName } from '../teamLookup.js'
-import { TierBadge, localeOf, resultState } from './MatchCard.jsx'
+import { TierBadge, localeOf, resultState, QualifyBar } from './MatchCard.jsx'
 import WeatherIcon from './WeatherIcon.jsx'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
@@ -179,6 +179,8 @@ export default function MatchDetailModal({ m, onClose }) {
           <ProbRow label={t('match.draw')} value={m.prob_draw} type="draw" hit={actualOutcome === 'draw'} />
           <ProbRow label={teamCode(m.away_team)} value={m.prob_away} type="away" hit={actualOutcome === 'away'} onLabelClick={() => goTeam(m.away_team)} />
         </div>
+
+        <QualifyBar m={m} />
 
         {m.btts_prob != null && (
           <div className="modal-section">

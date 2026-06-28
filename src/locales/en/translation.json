@@ -58,7 +58,9 @@
     "venueTBD": "Venue TBD",
     "predicted": "Predicted",
     "final": "Final",
-    "spotOn": "Exact score"
+    "spotOn": "Exact score",
+    "toQualify": "To advance",
+    "toQualifyHint": "Probability of advancing to the next round (incl. extra time and penalties)"
   },
   "modal": {
     "groupBadge": "{{stage}} · Group {{group}}",

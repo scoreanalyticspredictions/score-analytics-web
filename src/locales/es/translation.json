@@ -58,7 +58,9 @@
     "venueTBD": "Sede por definir",
     "predicted": "Pronóstico",
     "final": "Final",
-    "spotOn": "Marcador clavado"
+    "spotOn": "Marcador clavado",
+    "toQualify": "Quién avanza",
+    "toQualifyHint": "Probabilidad de avanzar a la siguiente ronda (incluye prórroga y penales)"
   },
   "modal": {
     "groupBadge": "{{stage}} · Grupo {{group}}",

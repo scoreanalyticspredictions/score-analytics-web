@@ -41,6 +41,27 @@ function Team({ name, flag, xg }) {
   )
 }
 
+// Barra "to qualify" (quién avanza) para partidos de eliminación directa: dos vías
+// (local/visitante) que incluyen prórroga + penales. Solo si hay datos de qualify.
+export function QualifyBar({ m }) {
+  const { t } = useTranslation()
+  if (m.prob_home_qualify == null || m.prob_away_qualify == null) return null
+  const h = pct(m.prob_home_qualify), a = pct(m.prob_away_qualify)
+  return (
+    <div className="qualify">
+      <div className="qualify-head" title={t('match.toQualifyHint')}>{t('match.toQualify')}</div>
+      <div className="qualify-bar">
+        <span className="q-home" style={{ width: `${h}%` }} />
+        <span className="q-away" style={{ width: `${a}%` }} />
+      </div>
+      <div className="qualify-labs">
+        <span className="q-l"><b>{teamCode(m.home_team)}</b> {h}%</span>
+        <span className="q-l">{a}% <b>{teamCode(m.away_team)}</b></span>
+      </div>
+    </div>
+  )
+}
+
 export function TierBadge({ tier }) {
   const { t } = useTranslation()
   if (!tier) return null
@@ -149,6 +170,8 @@ export default function MatchCard({ m, compact = false }) {
             <ProbRow label={teamCode(m.away_team)} value={m.prob_away} type="away" hit={actualOutcome === 'away'} />
           </div>
         )}
+
+        {!compact && <QualifyBar m={m} />}
 
         <MatchFooter m={m} />
       </div>
