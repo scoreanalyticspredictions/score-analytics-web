@@ -127,12 +127,11 @@ main.container { padding-top: 22px; }   /* separa el contenido del Header/menús
 .prob-row.hit .bar { height: 9px; box-shadow: 0 0 0 2px rgba(230, 237, 243, 0.25); }
 .prob-row.hit .pv::after { content: " ✓"; color: var(--green); font-weight: 800; }
 
-/* barra "to qualify" (quién avanza) en eliminatoria directa: dos vías local/visita */
+/* barra "to qualify" (clasifica) en eliminatoria directa: una vía azul del favorito */
 .qualify { margin-top: 13px; }
 .qualify-head { font-size: 10px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); font-weight: 700; margin-bottom: 5px; }
 .qualify-bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: var(--panel-2); }
-.qualify-bar .q-home { background: var(--home); }
-.qualify-bar .q-away { background: var(--away); }
+.qualify-bar .q-fill { background: #539bf5; }
 .qualify-labs { display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px; color: var(--text); }
 .qualify-labs .q-l b { color: var(--text); font-weight: 800; letter-spacing: .3px; }
 

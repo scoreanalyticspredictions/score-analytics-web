@@ -41,18 +41,20 @@ function Team({ name, flag, xg }) {
   )
 }
 
-// Barra "to qualify" (quién avanza) para partidos de eliminación directa: dos vías
-// (local/visitante) que incluyen prórroga + penales. Solo si hay datos de qualify.
+// Barra "to qualify" (quién avanza) para partidos de eliminación directa: una sola
+// vía azul del lado del favorito (>50%); el otro lado queda como track vacío.
+// Incluye prórroga + penales. Solo si hay datos de qualify.
 export function QualifyBar({ m }) {
   const { t } = useTranslation()
   if (m.prob_home_qualify == null || m.prob_away_qualify == null) return null
   const h = pct(m.prob_home_qualify), a = pct(m.prob_away_qualify)
+  const homeFav = h >= a
+  const fav = homeFav ? h : a
   return (
     <div className="qualify">
       <div className="qualify-head" title={t('match.toQualifyHint')}>{t('match.toQualify')}</div>
       <div className="qualify-bar">
-        <span className="q-home" style={{ width: `${h}%` }} />
-        <span className="q-away" style={{ width: `${a}%` }} />
+        <span className="q-fill" style={{ width: `${fav}%`, marginLeft: homeFav ? 0 : 'auto' }} />
       </div>
       <div className="qualify-labs">
         <span className="q-l"><b>{teamCode(m.home_team)}</b> {h}%</span>
