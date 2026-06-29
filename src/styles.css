@@ -14,6 +14,7 @@
   --red: #f85149;
   --red-dim: #8b3a3a;
   --gold: #e3b341;
+  --blue: #539bf5;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -150,13 +151,18 @@ main.container { padding-top: 22px; }   /* separa el contenido del Header/menús
 .result-strip.bad .rs-mark { color: var(--red); }
 .result-strip.spoton { border-color: var(--gold); }
 .result-strip.spoton .rs-mark { color: var(--gold); }
+.result-strip.advance { border-color: var(--blue); }
+.result-strip.advance .rs-mark { color: var(--blue); }
+.result-strip.advance .rs-tag { color: var(--blue); }
 
 /* bordes de resultado en la tarjeta: verde = acertó 1X2, dorado = clavó marcador */
 .card.result-correct { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
 .card.result-spoton { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.card.result-advance { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
 .card.result-wrong { border-color: var(--red-dim); box-shadow: 0 0 0 1px var(--red-dim); }
 .card.clickable.result-correct:hover { border-color: var(--green); }
 .card.clickable.result-spoton:hover { border-color: var(--gold); }
+.card.clickable.result-advance:hover { border-color: var(--blue); }
 .card.clickable.result-wrong:hover { border-color: var(--red-dim); }
 
 /* ---------- PostMortemTable ---------- */
@@ -392,6 +398,7 @@ table.pm tr:last-child td { border-bottom: none; }
 /* bordes de resultado en el modal (verde acierto / dorado clavado / rojo tenue fallo) */
 .modal.result-correct { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
 .modal.result-spoton { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.modal.result-advance { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
 .modal.result-wrong { border-color: var(--red-dim); box-shadow: 0 0 0 1px var(--red-dim); }
 
 /* ---------- TierStats table ---------- */

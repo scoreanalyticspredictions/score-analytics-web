@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { getPredictions, getSummary } from '../api.js'
 import SummaryBar from '../components/SummaryBar.jsx'
 import FilterBar from '../components/FilterBar.jsx'
-import MatchCard from '../components/MatchCard.jsx'
+import MatchCard, { buildTeamMaxRank } from '../components/MatchCard.jsx'
 import TierStats from '../components/TierStats.jsx'
 
 export default function MatchesPage({ summary }) {
@@ -29,6 +29,8 @@ export default function MatchesPage({ summary }) {
   const tierOptions = (summary?.by_tier || []).map((t) => t.tier)
   // mientras carga el filtrado, cae al global para no parpadear vacío
   const shownSummary = filteredSummary || summary
+  // mapa equipo->ronda para resolver "quién avanzó" en empates por penales
+  const teamMaxRank = buildTeamMaxRank(predictions)
 
   return (
     <>
@@ -48,7 +50,7 @@ export default function MatchesPage({ summary }) {
 
       {!loading && predictions.length > 0 && (
         <div className="matches">
-          {predictions.map((m) => <MatchCard key={m.fixture_id} m={m} />)}
+          {predictions.map((m) => <MatchCard key={m.fixture_id} m={m} teamMaxRank={teamMaxRank} />)}
         </div>
       )}
     </>

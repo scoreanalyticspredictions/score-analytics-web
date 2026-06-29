@@ -109,26 +109,58 @@ export function predictedOutcome(m) {
   const o = { home: m.prob_home || 0, draw: m.prob_draw || 0, away: m.prob_away || 0 }
   return Object.keys(o).reduce((b, k) => (o[k] > o[b] ? k : b), 'home')
 }
+// orden de las rondas de eliminación directa (para saber quién avanzó por penales)
+const STAGE_RANK = { 'Round of 32': 1, 'Round of 16': 2, 'Quarter-finals': 3, 'Semi-finals': 4, 'Final': 5 }
+export function stageRank(s) { return STAGE_RANK[s] || 0 }
+// mapa equipo -> ronda más profunda en la que aparece (un equipo que llega a una
+// ronda posterior es el que avanzó de la anterior). Útil para resolver penales.
+export function buildTeamMaxRank(matches) {
+  const out = {}
+  for (const m of matches || []) {
+    if (m.group_name) continue
+    const r = stageRank(m.stage)
+    if (!r) continue
+    out[m.home_team] = Math.max(out[m.home_team] || 0, r)
+    out[m.away_team] = Math.max(out[m.away_team] || 0, r)
+  }
+  return out
+}
 // estado de resultado de un partido -> clases/flags reutilizables (tarjeta y modal)
-export function resultState(m) {
+export function resultState(m, teamMaxRank = null) {
   const played = m.actual_home_score != null && m.actual_away_score != null
   const actualOutcome = played ? outcomeOf(m.actual_home_score, m.actual_away_score) : null
   const correct = played && actualOutcome === predictedOutcome(m)
   const spotOn = played
     && m.predicted_home_score === m.actual_home_score
     && m.predicted_away_score === m.actual_away_score
-  const cls = spotOn ? 'result-spoton' : correct ? 'result-correct' : played ? 'result-wrong' : ''
-  return { played, actualOutcome, correct, spotOn, cls }
+  // azul: falló el 1X2 a 90' pero acertó quién avanza (solo eliminatoria directa)
+  let advance = false
+  const hasQual = m.prob_home_qualify != null && m.prob_away_qualify != null
+  if (played && !correct && !spotOn && hasQual) {
+    const predAdv = m.prob_home_qualify >= m.prob_away_qualify ? 'home' : 'away'
+    let actualAdv = null
+    if (m.actual_home_score > m.actual_away_score) actualAdv = 'home'
+    else if (m.actual_away_score > m.actual_home_score) actualAdv = 'away'
+    else if (teamMaxRank) { // empate (penales): quien aparece en ronda posterior
+      const r = stageRank(m.stage)
+      if ((teamMaxRank[m.home_team] || 0) > r) actualAdv = 'home'
+      else if ((teamMaxRank[m.away_team] || 0) > r) actualAdv = 'away'
+    }
+    advance = actualAdv != null && actualAdv === predAdv
+  }
+  const cls = spotOn ? 'result-spoton' : correct ? 'result-correct'
+    : advance ? 'result-advance' : played ? 'result-wrong' : ''
+  return { played, actualOutcome, correct, spotOn, advance, cls }
 }
 
-export default function MatchCard({ m, compact = false }) {
+export default function MatchCard({ m, compact = false, teamMaxRank = null }) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const stageLabel = t(`stages.${m.stage}`, { defaultValue: m.stage })
   const badge = m.group_name ? `${stageLabel} · ${m.group_name}` : stageLabel
 
   // estado del resultado real (si el partido ya se jugó)
-  const { played, actualOutcome, correct, spotOn, cls } = resultState(m)
+  const { played, actualOutcome, correct, spotOn, advance, cls } = resultState(m, teamMaxRank)
 
   return (
     <>
@@ -155,13 +187,14 @@ export default function MatchCard({ m, compact = false }) {
         </div>
 
         {played && (
-          <div className={`result-strip ${spotOn ? 'spoton' : correct ? 'ok' : 'bad'}`}>
+          <div className={`result-strip ${spotOn ? 'spoton' : correct ? 'ok' : advance ? 'advance' : 'bad'}`}>
             <span className="rs-label">{t('match.final')}</span>
             <span className="rs-score">
               {m.actual_home_score}<span className="dash">—</span>{m.actual_away_score}
             </span>
-            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : '✗'}</span>
+            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : advance ? '✓' : '✗'}</span>
             {spotOn && <span className="rs-tag">{t('match.spotOn')}</span>}
+            {advance && <span className="rs-tag">{t('match.advanceCorrect')}</span>}
           </div>
         )}
 
@@ -178,7 +211,7 @@ export default function MatchCard({ m, compact = false }) {
         <MatchFooter m={m} />
       </div>
 
-      {open && <MatchDetailModal m={m} onClose={() => setOpen(false)} />}
+      {open && <MatchDetailModal m={m} teamMaxRank={teamMaxRank} onClose={() => setOpen(false)} />}
     </>
   )
 }

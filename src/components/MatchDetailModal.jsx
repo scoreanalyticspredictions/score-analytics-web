@@ -110,7 +110,7 @@ function ScoreMatrix({ m }) {
   )
 }
 
-export default function MatchDetailModal({ m, onClose }) {
+export default function MatchDetailModal({ m, onClose, teamMaxRank = null }) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
 
@@ -124,7 +124,7 @@ export default function MatchDetailModal({ m, onClose }) {
   if (!m) return null
   const stageLabel = t(`stages.${m.stage}`, { defaultValue: m.stage })
   const badge = m.group_name ? t('modal.groupBadge', { stage: stageLabel, group: m.group_name }) : stageLabel
-  const { played, actualOutcome, correct, spotOn, cls } = resultState(m)
+  const { played, actualOutcome, correct, spotOn, advance, cls } = resultState(m, teamMaxRank)
 
   const goTeam = async (name) => {
     const id = await teamIdByName(name)
@@ -156,13 +156,14 @@ export default function MatchDetailModal({ m, onClose }) {
         </div>
 
         {played && (
-          <div className={`result-strip ${spotOn ? 'spoton' : correct ? 'ok' : 'bad'}`}>
+          <div className={`result-strip ${spotOn ? 'spoton' : correct ? 'ok' : advance ? 'advance' : 'bad'}`}>
             <span className="rs-label">{t('match.final')}</span>
             <span className="rs-score">
               {m.actual_home_score}<span className="dash">—</span>{m.actual_away_score}
             </span>
-            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : '✗'}</span>
+            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : advance ? '✓' : '✗'}</span>
             {spotOn && <span className="rs-tag">{t('match.spotOn')}</span>}
+            {advance && <span className="rs-tag">{t('match.advanceCorrect')}</span>}
           </div>
         )}
 

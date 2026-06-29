@@ -60,7 +60,8 @@
     "final": "Final",
     "spotOn": "Marcador clavado",
     "toQualify": "Clasifica",
-    "toQualifyHint": "Probabilidad de avanzar a la siguiente ronda (incluye prórroga y penales)"
+    "toQualifyHint": "Probabilidad de avanzar a la siguiente ronda (incluye prórroga y penales)",
+    "advanceCorrect": "Clasifica correcto"
   },
   "modal": {
     "groupBadge": "{{stage}} · Grupo {{group}}",

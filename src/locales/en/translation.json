@@ -60,7 +60,8 @@
     "final": "Final",
     "spotOn": "Exact score",
     "toQualify": "To advance",
-    "toQualifyHint": "Probability of advancing to the next round (incl. extra time and penalties)"
+    "toQualifyHint": "Probability of advancing to the next round (incl. extra time and penalties)",
+    "advanceCorrect": "Correct to advance"
   },
   "modal": {
     "groupBadge": "{{stage}} · Group {{group}}",
