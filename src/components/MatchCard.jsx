@@ -133,13 +133,25 @@ export function resultState(m, teamMaxRank = null) {
   const spotOn = played
     && m.predicted_home_score === m.actual_home_score
     && m.predicted_away_score === m.actual_away_score
-  // Si falló el 1X2 a 90', cuenta como INCORRECTO (✗) aunque el equipo haya
-  // avanzado por penales: al final del día el resultado del partido fue
-  // incorrecto (y así queda alineado con la precisión del backend, que solo
-  // mira el 1X2). La barra "to advance" sigue mostrando las probabilidades.
-  const advance = false
+  // azul: falló el 1X2 a 90' pero acertó quién avanza (solo eliminatoria directa).
+  // Se conserva el estilo azul + texto "correct to advance", PERO la marca es ✗
+  // (el resultado del partido a 90' fue incorrecto).
+  let advance = false
+  const hasQual = m.prob_home_qualify != null && m.prob_away_qualify != null
+  if (played && !correct && !spotOn && hasQual) {
+    const predAdv = m.prob_home_qualify >= m.prob_away_qualify ? 'home' : 'away'
+    let actualAdv = null
+    if (m.actual_home_score > m.actual_away_score) actualAdv = 'home'
+    else if (m.actual_away_score > m.actual_home_score) actualAdv = 'away'
+    else if (teamMaxRank) { // empate (penales): quien aparece en ronda posterior
+      const r = stageRank(m.stage)
+      if ((teamMaxRank[m.home_team] || 0) > r) actualAdv = 'home'
+      else if ((teamMaxRank[m.away_team] || 0) > r) actualAdv = 'away'
+    }
+    advance = actualAdv != null && actualAdv === predAdv
+  }
   const cls = spotOn ? 'result-spoton' : correct ? 'result-correct'
-    : played ? 'result-wrong' : ''
+    : advance ? 'result-advance' : played ? 'result-wrong' : ''
   return { played, actualOutcome, correct, spotOn, advance, cls }
 }
 
@@ -182,7 +194,7 @@ export default function MatchCard({ m, compact = false, teamMaxRank = null }) {
             <span className="rs-score">
               {m.actual_home_score}<span className="dash">—</span>{m.actual_away_score}
             </span>
-            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : advance ? '✓' : '✗'}</span>
+            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : '✗'}</span>
             {spotOn && <span className="rs-tag">{t('match.spotOn')}</span>}
             {advance && <span className="rs-tag">{t('match.advanceCorrect')}</span>}
           </div>

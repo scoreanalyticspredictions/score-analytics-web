@@ -161,7 +161,7 @@ export default function MatchDetailModal({ m, onClose, teamMaxRank = null }) {
             <span className="rs-score">
               {m.actual_home_score}<span className="dash">—</span>{m.actual_away_score}
             </span>
-            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : advance ? '✓' : '✗'}</span>
+            <span className="rs-mark">{spotOn ? '★' : correct ? '✓' : '✗'}</span>
             {spotOn && <span className="rs-tag">{t('match.spotOn')}</span>}
             {advance && <span className="rs-tag">{t('match.advanceCorrect')}</span>}
           </div>
