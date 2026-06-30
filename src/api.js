@@ -301,7 +301,12 @@ export async function getPredictions({ stage, group, tier, upcoming, date } = {}
     if (tier) r = r.filter((m) => m.tier === tier)
     if (upcoming) r = r.filter((m) => new Date(m.match_date) >= new Date())
     if (date) r = r.filter((m) => cstDate(m.match_date) === date)
-    return [...r].sort((a, b) => new Date(a.match_date) - new Date(b.match_date))
+    // espeja el orden del backend: no jugados primero (fecha asc, el más próximo
+    // arriba), luego completados (fecha desc, el más reciente arriba).
+    const isPlayed = (m) => m.actual_home_score != null
+    const up = r.filter((m) => !isPlayed(m)).sort((a, b) => new Date(a.match_date) - new Date(b.match_date))
+    const done = r.filter(isPlayed).sort((a, b) => new Date(b.match_date) - new Date(a.match_date))
+    return [...up, ...done]
   }
   const qs = new URLSearchParams()
   if (stage) qs.set('stage', stage)

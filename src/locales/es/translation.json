@@ -175,7 +175,9 @@
   "matchesPage": {
     "loading": "Cargando predicciones…",
     "noMatches": "No hay partidos para los filtros seleccionados.",
-    "error": "No se pudieron cargar los datos: {{error}}"
+    "error": "No se pudieron cargar los datos: {{error}}",
+    "upcomingTitle": "Próximos Juegos",
+    "completedTitle": "Juegos Completados"
   },
   "footer": {
     "disclaimer": "Predicciones generadas por un modelo estadístico. No es asesoría financiera ni de apuestas."

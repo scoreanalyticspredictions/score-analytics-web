@@ -167,6 +167,14 @@ main.container { padding-top: 22px; }   /* separa el contenido del Header/menús
 
 /* ---------- PostMortemTable ---------- */
 .section-title { font-size: 18px; font-weight: 700; margin: 36px 0 14px; }
+/* separador entre próximos y ya jugados: línea divisoria + etiqueta apagada */
+.section-title.matches-divider {
+  margin-top: 44px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
+.section-title.matches-divider + .matches { margin-top: 16px; }
 .pm-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 table.pm { width: 100%; border-collapse: collapse; font-size: 14px; }
 table.pm th, table.pm td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }

@@ -31,6 +31,9 @@ export default function MatchesPage({ summary }) {
   const shownSummary = filteredSummary || summary
   // mapa equipo->ronda para resolver "quién avanzó" en empates por penales
   const teamMaxRank = buildTeamMaxRank(predictions)
+  // separa por jugar / ya jugados (la API ya los entrega en ese orden)
+  const upcomingMatches = predictions.filter((m) => m.actual_home_score == null)
+  const completedMatches = predictions.filter((m) => m.actual_home_score != null)
 
   return (
     <>
@@ -48,10 +51,22 @@ export default function MatchesPage({ summary }) {
         <div className="state">{t('matchesPage.noMatches')}</div>
       )}
 
-      {!loading && predictions.length > 0 && (
-        <div className="matches">
-          {predictions.map((m) => <MatchCard key={m.fixture_id} m={m} teamMaxRank={teamMaxRank} />)}
-        </div>
+      {!loading && upcomingMatches.length > 0 && (
+        <>
+          <h2 className="section-title">{t('matchesPage.upcomingTitle')}</h2>
+          <div className="matches">
+            {upcomingMatches.map((m) => <MatchCard key={m.fixture_id} m={m} teamMaxRank={teamMaxRank} />)}
+          </div>
+        </>
+      )}
+
+      {!loading && completedMatches.length > 0 && (
+        <>
+          <h2 className="section-title matches-divider">{t('matchesPage.completedTitle')}</h2>
+          <div className="matches">
+            {completedMatches.map((m) => <MatchCard key={m.fixture_id} m={m} teamMaxRank={teamMaxRank} />)}
+          </div>
+        </>
       )}
     </>
   )
