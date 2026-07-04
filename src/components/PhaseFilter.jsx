@@ -6,10 +6,12 @@ export default function PhaseFilter({ phases, value, onChange }) {
   const { t } = useTranslation()
   if (!phases || phases.length < 2) return null
 
-  const label = (p) =>
-    p === 'inicio'
-      ? t('phaseFilter.inicio')
-      : t('phaseFilter.jornada', { n: String(p).replace(/^j/, '') })
+  const label = (p) => {
+    if (p === 'inicio') return t('phaseFilter.inicio')
+    if (/^j\d+$/.test(p)) return t('phaseFilter.jornada', { n: String(p).slice(1) })
+    // fotos de eliminatoria (r32 = tras 16avos, r16 = tras 8vos, qf, sf)
+    return t(`phaseFilter.ko.${p}`, { defaultValue: String(p) })
+  }
 
   return (
     <div className="phase-filter">

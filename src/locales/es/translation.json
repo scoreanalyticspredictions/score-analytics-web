@@ -122,7 +122,13 @@
   "phaseFilter": {
     "label": "Probabilidades:",
     "inicio": "Inicio del torneo",
-    "jornada": "Tras jornada {{n}}"
+    "jornada": "Tras jornada {{n}}",
+    "ko": {
+      "r32": "Tras dieciseisavos",
+      "r16": "Tras octavos",
+      "qf": "Tras cuartos",
+      "sf": "Tras semifinales"
+    }
   },
   "groupsPage": {
     "title": "Grupos — Probabilidades de posición final",

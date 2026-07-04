@@ -122,7 +122,13 @@
   "phaseFilter": {
     "label": "Odds:",
     "inicio": "Tournament start",
-    "jornada": "After matchday {{n}}"
+    "jornada": "After matchday {{n}}",
+    "ko": {
+      "r32": "After Round of 32",
+      "r16": "After Round of 16",
+      "qf": "After Quarter-finals",
+      "sf": "After Semi-finals"
+    }
   },
   "groupsPage": {
     "title": "Groups — Final Position Probabilities",
