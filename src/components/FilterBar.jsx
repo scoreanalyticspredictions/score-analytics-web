@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 const STAGES = [
   'Group Stage', 'Round of 32', 'Round of 16',
-  'Quarter-finals', 'Semi-finals', 'Final',
+  'Quarter-finals', 'Semi-finals', '3rd Place Final', 'Final',
 ]
 const GROUPS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
 

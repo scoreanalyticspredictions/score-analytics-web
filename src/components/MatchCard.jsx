@@ -110,7 +110,7 @@ export function predictedOutcome(m) {
   return Object.keys(o).reduce((b, k) => (o[k] > o[b] ? k : b), 'home')
 }
 // orden de las rondas de eliminación directa (para saber quién avanzó por penales)
-const STAGE_RANK = { 'Round of 32': 1, 'Round of 16': 2, 'Quarter-finals': 3, 'Semi-finals': 4, 'Final': 5 }
+const STAGE_RANK = { 'Round of 32': 1, 'Round of 16': 2, 'Quarter-finals': 3, 'Semi-finals': 4, '3rd Place Final': 5, 'Final': 6 }
 export function stageRank(s) { return STAGE_RANK[s] || 0 }
 // mapa equipo -> ronda más profunda en la que aparece (un equipo que llega a una
 // ronda posterior es el que avanzó de la anterior). Útil para resolver penales.
