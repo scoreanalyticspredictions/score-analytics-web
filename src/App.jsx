@@ -6,6 +6,9 @@ import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import KofiButton from './components/KofiButton.jsx'
 import MatchesPage from './pages/MatchesPage.jsx'
+import ClubsPage from './pages/ClubsPage.jsx'
+import CompetitionsPage from './pages/CompetitionsPage.jsx'
+import ClubLeaguePage from './pages/ClubLeaguePage.jsx'
 import GroupsPage from './pages/GroupsPage.jsx'
 import TeamsPage from './pages/TeamsPage.jsx'
 import TeamPage from './pages/TeamPage.jsx'
@@ -30,7 +33,13 @@ export default function App() {
       <Header lastUpdated={summary?.last_updated} />
       <main className="container">
         <Routes>
-          <Route path="/" element={<MatchesPage summary={summary} />} />
+          {/* Landing = tablero de partidos (Matches). Directorio de ligas = Competitions.
+              El Mundial es una competición más pero abre su propio tablero (/mundial). */}
+          <Route path="/" element={<ClubsPage />} />
+          <Route path="/clubs" element={<ClubsPage />} />
+          <Route path="/competitions" element={<CompetitionsPage />} />
+          <Route path="/clubs/liga/:leagueId" element={<ClubLeaguePage />} />
+          <Route path="/mundial" element={<MatchesPage summary={summary} />} />
           <Route path="/groups" element={<GroupsPage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/team/:id" element={<TeamPage />} />

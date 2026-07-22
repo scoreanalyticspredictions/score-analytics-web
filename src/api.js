@@ -347,3 +347,66 @@ export async function getPhases() {
   if (USE_MOCK) return { phases: ['inicio'], default: 'inicio' }
   return http('/api/phases')
 }
+
+// ---------- CLUBES ----------
+export async function getClubLeagues(season) {
+  if (USE_MOCK) return MOCK_CLUB_LEAGUES
+  return http(`/api/clubs/leagues${season ? `?season=${season}` : ''}`)
+}
+
+// Días con partidos (tablero diario): [{date, matches, leagues}] cronológico.
+export async function getClubDays({ season, league } = {}) {
+  if (USE_MOCK) return [{ date: '2025-08-16', matches: MOCK_CLUB_PREDICTIONS.length, leagues: 1 }]
+  const qs = new URLSearchParams()
+  if (season) qs.set('season', season)
+  if (league) qs.set('league', league)
+  const q = qs.toString()
+  return http(`/api/clubs/days${q ? `?${q}` : ''}`)
+}
+
+// Clasificación en vivo de una liga (PJ·G·E·P·GF·GC·DG·Pts de la temporada).
+export async function getClubStandings({ league, season } = {}) {
+  if (USE_MOCK) return []
+  const qs = new URLSearchParams({ league })
+  if (season) qs.set('season', season)
+  return http(`/api/clubs/standings?${qs.toString()}`)
+}
+
+// Proyección de fin de temporada (Monte Carlo): P(campeón) + posición más probable.
+export async function getClubProjection({ league, season } = {}) {
+  if (USE_MOCK) return { rows: [], teams: 0, remaining: 0, sims: 0 }
+  const qs = new URLSearchParams({ league })
+  if (season) qs.set('season', season)
+  return http(`/api/clubs/projection?${qs.toString()}`)
+}
+
+export async function getClubForm({ team, before, limit = 5 } = {}) {
+  if (USE_MOCK) return []
+  const qs = new URLSearchParams({ team, limit })
+  if (before) qs.set('before', before)
+  return http(`/api/clubs/form?${qs.toString()}`)
+}
+
+export async function getClubPredictions({ league, season, date, tier, matchday } = {}) {
+  if (USE_MOCK) return MOCK_CLUB_PREDICTIONS
+  const qs = new URLSearchParams()
+  if (league) qs.set('league', league)
+  if (season) qs.set('season', season)
+  if (date) qs.set('date', date)
+  if (tier) qs.set('tier', tier)
+  if (matchday != null) qs.set('matchday', matchday)
+  return http(`/api/clubs/predictions?${qs.toString()}`)
+}
+
+const MOCK_CLUB_LEAGUES = [
+  { league_id: 39, league_name: 'Premier League', season_year: 2025, matches: 380, matches_xg: 380, completed: 380 },
+  { league_id: 140, league_name: 'La Liga', season_year: 2025, matches: 380, matches_xg: 380, completed: 380 },
+]
+const MOCK_CLUB_PREDICTIONS = [
+  { match_id: 1, league_id: 39, league_name: 'Premier League', season_year: 2025, matchday: 1,
+    match_date: '2025-08-15T19:00:00Z', home_team: 'Liverpool', away_team: 'Bournemouth',
+    prob_home: 0.59, prob_draw: 0.20, prob_away: 0.20, xg_home: 2.17, xg_away: 1.21,
+    predicted_home_score: 2, predicted_away_score: 1, prob_score: 0.11, btts_prob: 0.62, over25_prob: 0.61,
+    tier: 'B', odds_home: 1.29, odds_draw: 6.55, odds_away: 9.75,
+    actual_home_score: 4, actual_away_score: 2, has_xg: true },
+]

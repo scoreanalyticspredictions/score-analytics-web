@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Logo from './Logo.jsx'
 import { getTeams } from '../api.js'
@@ -72,7 +72,14 @@ function LangToggle() {
 
 export default function Header() {
   const { t } = useTranslation()
-  const linkClass = ({ isActive }) => `nav-link${isActive ? ' active' : ''}`
+  const { pathname } = useLocation()
+  // Sección Mundial: su tablero + subpáginas (grupos/equipos). Es UNA competición.
+  const inWC = pathname === '/mundial' || pathname.startsWith('/groups')
+    || pathname.startsWith('/teams') || pathname.startsWith('/team/')
+  // "Matches" = tablero diario (landing). "Competitions" = directorio + cualquier
+  // competición concreta (una liga de clubes o el Mundial).
+  const inMatches = pathname === '/' || pathname.startsWith('/clubs') && !pathname.startsWith('/clubs/liga')
+  const inCompetitions = pathname === '/competitions' || pathname.startsWith('/clubs/liga') || inWC
   return (
     <header className="header">
       <div className="container">
@@ -80,17 +87,20 @@ export default function Header() {
           <Logo size="lg" />
           <div className="header-right">
             <LangToggle />
-            <span className="badge-wc">{t('header.badge')}</span>
+            {inWC && <NavLink to="/mundial" className="badge-wc">{t('header.badge')}</NavLink>}
           </div>
         </div>
         <div className="header-nav">
           <nav className="nav-links">
-            <NavLink to="/" className={linkClass} end>{t('nav.matches')}</NavLink>
-            <NavLink to="/groups" className={linkClass}>{t('nav.groups')}</NavLink>
-            <NavLink to="/teams" className={linkClass}>{t('nav.teams')}</NavLink>
-            <NavLink to="/about" className={linkClass}>{t('nav.about')}</NavLink>
+            <NavLink to="/" end className={({ isActive }) => `nav-link${(isActive || inMatches) ? ' active' : ''}`}>{t('nav.matches')}</NavLink>
+            <NavLink to="/competitions" className={({ isActive }) => `nav-link${(isActive || inCompetitions) ? ' active' : ''}`}>{t('nav.competitions')}</NavLink>
+            {inWC && <>
+              <NavLink to="/groups" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>{t('nav.groups')}</NavLink>
+              <NavLink to="/teams" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>{t('nav.teams')}</NavLink>
+            </>}
+            <NavLink to="/about" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>{t('nav.about')}</NavLink>
           </nav>
-          <TeamSearch />
+          {inWC && <TeamSearch />}
         </div>
       </div>
     </header>
