@@ -6,12 +6,13 @@ import { clubLeagueName } from './clubLeagues.js'
 
 // api-football league_id -> país (clave de country en la BD)
 export const LEAGUE_COUNTRY = {
-  128: 'Argentina', 188: 'Australia', 218: 'Austria', 117: 'Belarus', 144: 'Belgium',
-  71: 'Brazil', 72: 'Brazil', 172: 'Bulgaria', 169: 'China', 211: 'Croatia', 210: 'Croatia',
+  128: 'Argentina', 188: 'Australia', 218: 'Austria', 116: 'Belarus', 117: 'Belarus',
+  144: 'Belgium', 71: 'Brazil', 72: 'Brazil', 172: 'Bulgaria', 265: 'Chile', 169: 'China',
+  239: 'Colombia', 211: 'Croatia', 210: 'Croatia',
   318: 'Cyprus', 345: 'Czech-Republic', 120: 'Denmark', 119: 'Denmark', 233: 'Egypt',
   40: 'England', 41: 'England', 39: 'England', 244: 'Finland', 61: 'France', 62: 'France',
   63: 'France', 79: 'Germany', 80: 'Germany', 78: 'Germany', 197: 'Greece', 271: 'Hungary',
-  323: 'India', 382: 'Israel', 383: 'Israel', 135: 'Italy', 136: 'Italy', 98: 'Japan',
+  323: 'India', 357: 'Ireland', 382: 'Israel', 383: 'Israel', 135: 'Italy', 136: 'Italy', 98: 'Japan',
   365: 'Latvia', 361: 'Lithuania', 362: 'Lithuania', 263: 'Mexico', 262: 'Mexico',
   200: 'Morocco', 88: 'Netherlands', 103: 'Norway', 106: 'Poland', 107: 'Poland',
   94: 'Portugal', 305: 'Qatar', 283: 'Romania', 235: 'Russia', 308: 'Saudi-Arabia',
@@ -25,6 +26,8 @@ export const LEAGUE_COUNTRY = {
 const C = {
   Argentina: { r: 'sudamerica', c: 'ar', l: 'Argentina', le: 'Argentina' },
   Brazil: { r: 'sudamerica', c: 'br', l: 'Brasil', le: 'Brazil' },
+  Chile: { r: 'sudamerica', c: 'cl', l: 'Chile', le: 'Chile' },
+  Colombia: { r: 'sudamerica', c: 'co', l: 'Colombia', le: 'Colombia' },
   Mexico: { r: 'norteamerica', c: 'mx', l: 'México', le: 'Mexico' },
   USA: { r: 'norteamerica', c: 'us', l: 'Estados Unidos', le: 'United States' },
   Austria: { r: 'europa', c: 'at', l: 'Austria', le: 'Austria' },
@@ -41,6 +44,7 @@ const C = {
   Germany: { r: 'europa', c: 'de', l: 'Alemania', le: 'Germany' },
   Greece: { r: 'europa', c: 'gr', l: 'Grecia', le: 'Greece' },
   Hungary: { r: 'europa', c: 'hu', l: 'Hungría', le: 'Hungary' },
+  Ireland: { r: 'europa', c: 'ie', l: 'Irlanda', le: 'Ireland' },
   Israel: { r: 'europa', c: 'il', l: 'Israel', le: 'Israel' },
   Italy: { r: 'europa', c: 'it', l: 'Italia', le: 'Italy' },
   Latvia: { r: 'europa', c: 'lv', l: 'Letonia', le: 'Latvia' },
@@ -95,6 +99,7 @@ export const pickLabel = (meta, lang) => (lang === 'en' && meta && meta.le ? met
 // División por liga, para ordenar dentro del país (1ª, 2ª, 3ª). Default = 1.
 export const LEAGUE_DIV = {
   40: 2, 41: 3,   // Inglaterra (39=1ª)
+  117: 2,         // Bielorrusia (116=1ª Premier League)
   62: 2, 63: 3,   // Francia (61=1ª)
   79: 2, 80: 3,   // Alemania (78=1ª)
   72: 2,          // Brasil (71=1ª)
