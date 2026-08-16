@@ -802,6 +802,16 @@ html { color-scheme: dark; }
 .cl-stand .pts { font-weight: 800; color: var(--text); }
 .cl-stand-note { color: var(--muted); font-size: 12.5px; margin-top: 12px; line-height: 1.55; }
 .cl-stand .champ-cell { font-weight: 800; color: var(--accent); width: 86px; }
+.cl-stand .sos-cell { color: var(--muted); font-variant-numeric: tabular-nums; width: 56px; }
+
+/* Posición en la tabla dentro del modal de partido */
+.tbl-spot { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl-spot th, .tbl-spot td { padding: 6px 8px; text-align: center; }
+.tbl-spot thead th { color: var(--muted); font-weight: 700; font-size: 12px; }
+.tbl-spot tbody th { text-align: left; color: var(--muted); font-weight: 600; }
+.tbl-spot tbody td { font-weight: 700; font-variant-numeric: tabular-nums; }
+.tbl-spot tbody tr + tr { border-top: 1px solid var(--border); }
+.tbl-spot-note { color: var(--muted); font-size: 11.5px; margin-top: 8px; line-height: 1.5; }
 
 /* --- Proyección: formato (playoffs) + notas --- */
 .cl-fmt-badge { display: inline-block; background: rgba(0,201,167,.10); border: 1px solid rgba(0,201,167,.35);

@@ -30,6 +30,7 @@ function StandingsTable({ rows, champ }) {
             <th title={t('clubs.stGC', { defaultValue: 'Goles en contra' })}>{t('clubs.abGA', { defaultValue: 'GC' })}</th>
             <th title={t('clubs.stGD', { defaultValue: 'Diferencia de goles' })}>{t('clubs.abGD', { defaultValue: 'DG' })}</th>
             <th title={t('clubs.stPts', { defaultValue: 'Puntos' })}>{t('clubs.abPts', { defaultValue: 'Pts' })}</th>
+            <th title={t('clubs.sosHelp')}>{t('clubs.sosShort')}</th>
             <th title={t('clubs.stChamp', { defaultValue: 'Probabilidad de ganar la liga' })}>{t('clubs.stChampShort', { defaultValue: 'P(campeón)' })}</th>
           </tr>
         </thead>
@@ -49,6 +50,9 @@ function StandingsTable({ rows, champ }) {
                 <td>{r.goals_for}</td><td>{r.goals_against}</td>
                 <td>{r.goal_diff > 0 ? '+' : ''}{r.goal_diff}</td>
                 <td className="pts">{r.points}</td>
+                <td className="sos-cell" title={r.sos_rank ? t('clubs.sosRankTip', { rank: r.sos_rank }) : ''}>
+                  {r.sos == null ? '–' : r.sos.toFixed(2)}
+                </td>
                 <td className="champ-cell">{champ ? pctTxt(champ[r.team_id]) : '…'}</td>
               </tr>
             )

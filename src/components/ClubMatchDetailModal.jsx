@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TierBadge, localeOf, resultState, formatKickoff } from './MatchCard.jsx'
-import { getClubForm } from '../api.js'
+import { getClubForm, getClubStandings } from '../api.js'
 import { clubLeagueName } from '../clubLeagues.js'
 
 function pct(p) { return p == null ? 0 : Math.round(p * 100) }
@@ -172,6 +172,74 @@ function TeamForm({ teamId, before, name }) {
   )
 }
 
+// Posición en la tabla de ambos equipos + goles y dificultad de calendario.
+// Se nutre de /api/clubs/standings (misma fuente que la pestaña Clasificación).
+// "3º" en español, "3rd" en inglés (i18next no trae ordinales sin plugin).
+function ordinal(p, lang) {
+  if (p == null) return '–'
+  if (lang !== 'en') return `${p}º`
+  const d = p % 10, c = p % 100
+  if (d === 1 && c !== 11) return `${p}st`
+  if (d === 2 && c !== 12) return `${p}nd`
+  if (d === 3 && c !== 13) return `${p}rd`
+  return `${p}th`
+}
+
+function TableSpot({ m }) {
+  const { t, i18n } = useTranslation()
+  const [rows, setRows] = useState(null)
+  useEffect(() => {
+    let alive = true
+    if (m.league_id && m.season_year) {
+      getClubStandings({ league: m.league_id, season: m.season_year })
+        .then((r) => { if (alive) setRows(r) })
+        .catch(() => setRows([]))
+    }
+    return () => { alive = false }
+  }, [m.league_id, m.season_year])
+
+  if (rows == null) return <div className="muted-cell">…</div>
+  const h = rows.find((r) => r.team_id === m.home_team_id)
+  const a = rows.find((r) => r.team_id === m.away_team_id)
+  if (!h || !a || (h.played === 0 && a.played === 0)) {
+    return <div className="muted-cell">{t('clubs.tableEmpty')}</div>
+  }
+
+  const lang = (i18n.language || 'es').slice(0, 2)
+  const ord = (p) => ordinal(p, lang)
+  const sos = (r) => (r.sos == null ? '–' : `${r.sos.toFixed(2)} (${ord(r.sos_rank)})`)
+
+  const filas = [
+    [t('clubs.stPosition'), ord(h.position), ord(a.position)],
+    [t('clubs.abPlayed'), h.played, a.played],
+    [t('clubs.abPts'), h.points, a.points],
+    [t('clubs.abGF'), h.goals_for, a.goals_for],
+    [t('clubs.abGA'), h.goals_against, a.goals_against],
+    [t('clubs.sosShort'), sos(h), sos(a)],
+  ]
+
+  return (
+    <table className="tbl-spot">
+      <thead>
+        <tr>
+          <th />
+          <th>{shortName(m.home_team)}</th>
+          <th>{shortName(m.away_team)}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas.map(([lab, hv, av]) => (
+          <tr key={lab}>
+            <th scope="row">{lab}</th>
+            <td>{hv}</td>
+            <td>{av}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
 function BarStat({ label, value }) {
   return (
     <div className="modal-section">
@@ -249,6 +317,12 @@ export default function ClubMatchDetailModal({ m, onClose }) {
         )}
 
         {(m.xg_home != null && m.xg_away != null) && <OverUnder m={m} />}
+
+        <div className="modal-section">
+          <h4>{t('clubs.tablePosition')}</h4>
+          <TableSpot m={m} />
+          <p className="tbl-spot-note">{t('clubs.sosNote')}</p>
+        </div>
 
         <div className="modal-section">
           <h4>{t('clubs.recentForm')}</h4>
