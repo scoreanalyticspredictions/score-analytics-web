@@ -181,8 +181,8 @@
   "tiers": {
     "A": "Favorito contundente",
     "B": "Favorito claro",
-    "C": "Tiende al empate",
-    "D": "Ligera ventaja",
+    "C": "Ligero favorito",
+    "D": "Partido abierto",
     "E": "Muy parejo",
     "badge": "Tier {{tier}}",
     "learnMore": "Clic para saber más"
@@ -326,13 +326,13 @@
       "groupTitle": "Probabilidades de posición de grupo",
       "groupBody": "Dentro de cada grupo, la probabilidad de cada equipo de terminar 1°, 2°, 3° o 4°. Los dos primeros de cada grupo avanzan a la fase eliminatoria, así que el 1° y el 2° son las posiciones “de clasificación” a vigilar.",
       "tiersTitle": "Tiers de confianza",
-      "tiersIntro": "Cada partido lleva un tier de la A a la E que resume qué tan confiado está el modelo en un pronóstico claro. Es una forma rápida de distinguir un partido desbalanceado de un volado:",
-      "tiersA": "un resultado destaca claramente, por amplio margen.",
-      "tiersB": "un ganador probable, con una ventaja sólida pero menor.",
-      "tiersC": "sin favorito claro y el empate es una posibilidad real.",
-      "tiersD": "un lado es favorito, pero solo ligeramente.",
-      "tiersE": "muy parejo, sin un pronóstico confiable.",
-      "tiersGroupNote": "En la práctica, la mayoría de los partidos de la fase de grupos caen en los tiers A–C: un juego sin favorito claro suele tener una alta probabilidad de empate, lo que lo coloca en C. Los tiers más bajos, D y E, se reservan para los enfrentamientos muy parejos, así que los verás —si acaso— en las rondas eliminatorias.",
+      "tiersIntro": "Cada partido lleva un tier de la A a la E según la probabilidad del resultado más probable. Es una forma rápida de distinguir un partido desbalanceado de un volado:",
+      "tiersA": "el resultado más probable supera el 60%.",
+      "tiersB": "favorito claro, entre 52% y 60%.",
+      "tiersC": "ligero favorito, entre 46% y 52%.",
+      "tiersD": "partido abierto: el más probable ronda entre 40% y 46%.",
+      "tiersE": "muy parejo, ningún resultado alcanza el 40%.",
+      "tiersGroupNote": "Los cortes se fijaron midiendo el acierto real de cada nivel sobre miles de partidos jugados, de modo que un tier más alto acierta más seguido que uno más bajo. Un partido muy parejo suele repartir la probabilidad entre las tres opciones y cae en D o E.",
       "tiersTrackNote": "Conforme se juegan los partidos, registramos la tasa de acierto de cada tier en la página principal, para que veas qué tan confiable es el modelo en cada nivel de confianza: cuanto más alto el tier, más seguido debería acertar."
     },
     "model": {

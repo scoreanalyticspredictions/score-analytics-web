@@ -181,8 +181,8 @@
   "tiers": {
     "A": "Strong favorite",
     "B": "Clear favorite",
-    "C": "Draw-leaning",
-    "D": "Slight edge",
+    "C": "Slight favorite",
+    "D": "Open match",
     "E": "Toss-up",
     "badge": "Tier {{tier}}",
     "learnMore": "Click to learn more"
@@ -326,13 +326,13 @@
       "groupTitle": "Group standing odds",
       "groupBody": "Within each group, every team's chance of finishing 1st, 2nd, 3rd, or 4th. The top two of each group advance to the knockout rounds, so 1st and 2nd are the \"qualifying\" positions to watch.",
       "tiersTitle": "Confidence tiers",
-      "tiersIntro": "Every match is tagged with a tier from A to E that summarizes how confident the model is in a clear pick. It's a quick way to tell apart a lopsided match from a coin-flip:",
-      "tiersA": "one result stands out clearly, by a wide margin.",
-      "tiersB": "a likely winner, with a solid but smaller edge.",
-      "tiersC": "no strong favorite and the draw is a real possibility.",
-      "tiersD": "one side is favored, but only mildly.",
-      "tiersE": "evenly matched, with no confident pick.",
-      "tiersGroupNote": "In practice, most group-stage matches land in tiers A–C: a game with no clear favorite usually has a high draw probability, which places it in C. The lower tiers D and E are reserved for the rare, very tight match-ups, so you'll mostly see them — if at all — in the knockout rounds.",
+      "tiersIntro": "Every match is tagged with a tier from A to E based on the probability of the most likely result. It's a quick way to tell apart a lopsided match from a coin-flip:",
+      "tiersA": "the most likely result is above 60%.",
+      "tiersB": "clear favorite, between 52% and 60%.",
+      "tiersC": "slight favorite, between 46% and 52%.",
+      "tiersD": "open match: the most likely result sits between 40% and 46%.",
+      "tiersE": "evenly matched, no result reaches 40%.",
+      "tiersGroupNote": "The cut-offs were set by measuring the real hit rate of each level across thousands of played matches, so a higher tier does hit more often than a lower one. A very tight match tends to spread its probability across all three outcomes and lands in D or E.",
       "tiersTrackNote": "As matches are played, we track the success rate of each tier on the home page, so you can see how reliable the model is at every level of confidence — the stronger the tier, the more often it should be right."
     },
     "model": {
