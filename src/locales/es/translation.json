@@ -51,6 +51,8 @@
     "sosHelp": "Dificultad del calendario: puntos por partido promedio de los rivales enfrentados hasta ahora, sin contar los partidos entre ambos. Más alto = calendario más duro.",
     "sosRankTip": "Puesto en calendario más difícil: {{rank}}",
     "sosNote": "Cal. = puntos por partido promedio de los rivales ya enfrentados (0–3), sin contar los partidos entre ambos equipos. Más alto significa un calendario más difícil.",
+    "squadValue": "Valor plantilla",
+    "squadValueNote": "Valor de plantilla según Transfermarkt, en millones de euros. El modelo lo usa como referencia de fuerza al arrancar la temporada, cuando aún hay pocos partidos.",
     "recentForm": "Forma reciente (últimos 5)",
     "formW": "G",
     "formD": "E",

@@ -51,6 +51,8 @@
     "sosHelp": "Strength of Schedule: average points per game of the opponents faced so far, excluding the matches between the two teams. Higher = tougher run.",
     "sosRankTip": "Toughest schedule rank: {{rank}}",
     "sosNote": "SoS = average points per game of the opponents faced so far (0–3), excluding head-to-head matches. Higher means a tougher run of fixtures.",
+    "squadValue": "Squad value",
+    "squadValueNote": "Squad market value per Transfermarkt, in millions of euros. The model uses it as a strength prior early in the season, when few matches have been played.",
     "recentForm": "Recent form (last 5)",
     "formW": "W",
     "formD": "D",

@@ -174,6 +174,15 @@ function TeamForm({ teamId, before, name }) {
 
 // Posición en la tabla de ambos equipos + goles y dificultad de calendario.
 // Se nutre de /api/clubs/standings (misma fuente que la pestaña Clasificación).
+// Valor de plantilla en millones de euros. Siempre en "M €" (no se usa "B"/"MM":
+// billón es 10^12 en español y 10^9 en inglés, así que confundiría según el idioma).
+function fmtValue(eur, locale) {
+  if (eur == null) return '–'
+  const m = eur / 1e6
+  const dec = m >= 100 ? 0 : m >= 10 ? 1 : 2
+  return `${m.toLocaleString(locale, { minimumFractionDigits: dec, maximumFractionDigits: dec })} M €`
+}
+
 // "3º" en español, "3rd" en inglés (i18next no trae ordinales sin plugin).
 function ordinal(p, lang) {
   if (p == null) return '–'
@@ -209,6 +218,7 @@ function TableSpot({ m }) {
   const ord = (p) => ordinal(p, lang)
   const sos = (r) => (r.sos == null ? '–' : `${r.sos.toFixed(2)} (${ord(r.sos_rank)})`)
 
+  const loc = localeOf(i18n)
   const filas = [
     [t('clubs.stPosition'), ord(h.position), ord(a.position)],
     [t('clubs.abPlayed'), h.played, a.played],
@@ -217,6 +227,10 @@ function TableSpot({ m }) {
     [t('clubs.abGA'), h.goals_against, a.goals_against],
     [t('clubs.sosShort'), sos(h), sos(a)],
   ]
+  if (m.home_value_eur != null || m.away_value_eur != null) {
+    filas.push([t('clubs.squadValue'),
+                fmtValue(m.home_value_eur, loc), fmtValue(m.away_value_eur, loc)])
+  }
 
   return (
     <table className="tbl-spot">
@@ -322,6 +336,9 @@ export default function ClubMatchDetailModal({ m, onClose }) {
           <h4>{t('clubs.tablePosition')}</h4>
           <TableSpot m={m} />
           <p className="tbl-spot-note">{t('clubs.sosNote')}</p>
+          {(m.home_value_eur != null || m.away_value_eur != null) && (
+            <p className="tbl-spot-note">{t('clubs.squadValueNote')}</p>
+          )}
         </div>
 
         <div className="modal-section">
