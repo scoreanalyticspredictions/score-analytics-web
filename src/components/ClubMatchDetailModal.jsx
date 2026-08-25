@@ -336,9 +336,6 @@ export default function ClubMatchDetailModal({ m, onClose }) {
           <h4>{t('clubs.tablePosition')}</h4>
           <TableSpot m={m} />
           <p className="tbl-spot-note">{t('clubs.sosNote')}</p>
-          {(m.home_value_eur != null || m.away_value_eur != null) && (
-            <p className="tbl-spot-note">{t('clubs.squadValueNote')}</p>
-          )}
         </div>
 
         <div className="modal-section">
