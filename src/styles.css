@@ -665,7 +665,11 @@ table.pm tr:last-child td { border-bottom: none; }
 .ou-table td.ou-fav { color: var(--green); font-weight: 800; }
 .ou-table td.ou-hit { background: var(--accent-dim); border-radius: 4px; }
 /* forma reciente (2 columnas) en el modal de club */
-.form-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; min-width: 0; }
+/* Los items de grid/flex traen min-width:auto: sin esto la columna se ensancha
+   hasta caber el nombre de rival mas largo y el bloque se sale de la tarjeta,
+   porque el text-overflow de .form-opp nunca llega a aplicarse. */
+.form-col { min-width: 0; overflow: hidden; }
 .form-team { font-weight: 700; font-size: 13px; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .form-item { display: flex; align-items: center; gap: 7px; padding: 4px 0; font-size: 12px; }
 .form-res { flex: none; width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; color: #0d1117; }
