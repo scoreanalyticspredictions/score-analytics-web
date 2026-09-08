@@ -6,6 +6,9 @@ import { clubLeagueName } from './clubLeagues.js'
 
 // api-football league_id -> país (clave de country en la BD)
 export const LEAGUE_COUNTRY = {
+  // Competiciones europeas de clubes: no pertenecen a un país, van en su propio
+  // grupo (país ficticio 'UEFA') para que no caigan en la región "Otras".
+  2: 'UEFA', 3: 'UEFA', 848: 'UEFA',
   128: 'Argentina', 188: 'Australia', 218: 'Austria', 116: 'Belarus', 117: 'Belarus',
   144: 'Belgium', 71: 'Brazil', 72: 'Brazil', 172: 'Bulgaria', 265: 'Chile', 169: 'China',
   239: 'Colombia', 211: 'Croatia', 210: 'Croatia',
@@ -24,6 +27,7 @@ export const LEAGUE_COUNTRY = {
 
 // país -> { r: región, c: código ISO (flagcdn), l: etiqueta ES, le: etiqueta EN }
 const C = {
+  UEFA: { r: 'uefa', c: 'eu', l: 'Competiciones UEFA', le: 'UEFA competitions' },
   Argentina: { r: 'sudamerica', c: 'ar', l: 'Argentina', le: 'Argentina' },
   Brazil: { r: 'sudamerica', c: 'br', l: 'Brasil', le: 'Brazil' },
   Chile: { r: 'sudamerica', c: 'cl', l: 'Chile', le: 'Chile' },
@@ -81,6 +85,7 @@ const C = {
 export const flagUrl = (code, w = 40) => (code ? `https://flagcdn.com/w${w}/${code}.png` : null)
 
 export const REGION_META = {
+  uefa: { l: 'Europa · clubes', le: 'European clubs', ic: '🏆' },
   europa: { l: 'Europa', le: 'Europe', ic: '🌍' },
   sudamerica: { l: 'Sudamérica', le: 'South America', ic: '🌎' },
   norteamerica: { l: 'Norteamérica', le: 'North America', ic: '🌎' },
@@ -89,7 +94,8 @@ export const REGION_META = {
   oceania: { l: 'Oceanía', le: 'Oceania', ic: '🌏' },
   otras: { l: 'Otras ligas', le: 'Other leagues', ic: '🏳️' },
 }
-const REGION_ORDER = ['europa', 'sudamerica', 'norteamerica', 'asia', 'africa', 'oceania', 'otras']
+// 'uefa' primero: son las competiciones más buscadas del tablero
+const REGION_ORDER = ['uefa', 'europa', 'sudamerica', 'norteamerica', 'asia', 'africa', 'oceania', 'otras']
 
 // normaliza el idioma de i18next a 'en' | 'es'
 export const langOf = (i18n) => ((i18n?.resolvedLanguage || i18n?.language || 'es').startsWith('en') ? 'en' : 'es')
@@ -98,6 +104,7 @@ export const pickLabel = (meta, lang) => (lang === 'en' && meta && meta.le ? met
 
 // División por liga, para ordenar dentro del país (1ª, 2ª, 3ª). Default = 1.
 export const LEAGUE_DIV = {
+  2: 1, 3: 2, 848: 3,   // UEFA: Champions > Europa > Conference (orden de jerarquía)
   40: 2, 41: 3,   // Inglaterra (39=1ª)
   117: 2,         // Bielorrusia (116=1ª Premier League)
   62: 2, 63: 3,   // Francia (61=1ª)
