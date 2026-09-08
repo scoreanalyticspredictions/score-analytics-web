@@ -211,11 +211,15 @@ export default function ClubLeaguePage() {
     return Object.entries(g)
   }, [upcoming])
 
+  // Se prefiere el tamaño de la clasificación: en competición UEFA viene acotada
+  // a la fase de liga (36), mientras que contar equipos sobre todos los partidos
+  // incluiría los cientos de las rondas previas y no cuadraría con la tabla.
   const teamCount = useMemo(() => {
+    if (standings && standings.length) return standings.length
     const s = new Set()
     ;(matches || []).forEach((m) => { s.add(m.home_team); s.add(m.away_team) })
     return s.size
-  }, [matches])
+  }, [matches, standings])
 
   return (
     <section className="clubs-page club-league">
