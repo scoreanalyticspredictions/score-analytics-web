@@ -83,16 +83,26 @@ function ProjectionView({ proj }) {
   const maxd = Math.max(...rows.flatMap((r) => r.positions), 0.0001)
   const isPlayoff = proj.format === 'playoff'
   const isSpecial = proj.format === 'special'
+  // Las competiciones UEFA son TORNEOS, no ligas: "ganar la liga" sonaría raro
+  // para la Champions. LEAGUE_COUNTRY las marca con el país ficticio 'UEFA'.
+  const isCup = LEAGUE_COUNTRY[proj.league_id] === 'UEFA'
+  // Las etiquetas de formato del backend son nombres propios ("Liguilla",
+  // "MLS Cup Playoffs") y se muestran tal cual; las genéricas sí se traducen.
+  const fmtLabel = proj.format_label
+    ? t(`clubs.fmt.${proj.format_label}`, { defaultValue: proj.format_label })
+    : ''
   const oddsTitle = isSpecial
     ? t('clubs.projTitleRegLeader', { defaultValue: 'Odds de liderar la fase regular' })
-    : t('clubs.projTitleOdds', { defaultValue: 'Odds de ganar la liga' })
+    : isCup
+      ? t('clubs.projTitleOddsCup', { defaultValue: 'Odds de ganar el torneo' })
+      : t('clubs.projTitleOdds', { defaultValue: 'Odds de ganar la liga' })
   return (
     <>
       {proj.note && <div className="cl-note-box">⚠ {proj.note}</div>}
       {isPlayoff && (
         <div className="cl-fmt-badge">🏆 {t('clubs.titleVia', {
           defaultValue: 'Título por {{fmt}} — P(campeón) incluye la post-temporada',
-          fmt: proj.format_label })}</div>
+          fmt: fmtLabel })}</div>
       )}
       <h3 className="cl-sec-h">{oddsTitle}</h3>
       <div className="proj-odds">
@@ -151,7 +161,7 @@ function ProjectionView({ proj }) {
         })}
         {isPlayoff && ' ' + t('clubs.projNotePlayoff', {
           defaultValue: 'Cada temporada simulada incluye la post-temporada ({{fmt}}) según las reglas de la liga; los partidos de playoff se resuelven con un modelo Poisson sobre la fuerza de cada equipo.',
-          fmt: proj.format_label })}
+          fmt: fmtLabel })}
       </p>
     </>
   )

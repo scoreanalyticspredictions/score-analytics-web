@@ -70,12 +70,16 @@
     "noUpcoming": "Sin próximos partidos.",
     "projDist": "Distribución de posiciones (1º → último)",
     "projEmpty": "La proyección arranca cuando la temporada tenga partidos jugados.",
+    "fmt": {
+      "Knockout phase": "playoff y eliminatorias"
+    },
     "projNote": "Proyección por simulación Monte Carlo ({{sims}} temporadas) sobre los {{rem}} partidos que faltan, usando la probabilidad del modelo en cada uno. Se actualiza con cada resultado.",
     "projNotePlayoff": "Cada temporada simulada incluye la post-temporada ({{fmt}}) según las reglas de la liga; los partidos de playoff se resuelven con un modelo Poisson sobre la fuerza de cada equipo.",
     "projPos": "Pos.",
     "projProb": "Prob.",
     "projQualify": "clasifica",
     "projTitleOdds": "Odds de ganar la liga",
+    "projTitleOddsCup": "Odds de ganar el torneo",
     "projTitlePos": "Posición final más probable",
     "projTitleRegLeader": "Odds de liderar la fase regular",
     "season": "Temporada",

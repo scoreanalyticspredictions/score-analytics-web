@@ -70,12 +70,16 @@
     "noUpcoming": "No upcoming matches.",
     "projDist": "Position spread (1st → last)",
     "projEmpty": "The projection starts once the season has played matches.",
+    "fmt": {
+      "Knockout phase": "the playoff and knockout rounds"
+    },
     "projNote": "Monte Carlo projection ({{sims}} seasons) over the {{rem}} remaining matches, using the model's probability for each. Updates with every result.",
     "projNotePlayoff": "Each simulated season includes the post-season ({{fmt}}) per the league's rules; playoff matches are resolved with a Poisson model over each team's strength.",
     "projPos": "Pos.",
     "projProb": "Prob.",
     "projQualify": "qualifies",
     "projTitleOdds": "Odds to win the league",
+    "projTitleOddsCup": "Odds to win the tournament",
     "projTitlePos": "Most likely final position",
     "projTitleRegLeader": "Odds to top the regular season",
     "season": "Season",
